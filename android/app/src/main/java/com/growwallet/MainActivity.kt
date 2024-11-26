@@ -12,10 +12,10 @@ class MainActivity : ReactActivity() {
    * rendering of the component.
    */
   override fun getMainComponentName(): String = "GrowWallet"
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(null);
+    override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(null)
   }
+
 
   /**
    * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
