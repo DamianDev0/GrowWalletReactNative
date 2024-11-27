@@ -43,7 +43,7 @@ const LoginForm: React.FC = () => {
         icon="lock"
       />
       <GenericButton
-        title={loading ? 'Loading...' : 'Register'}
+        title={loading ? 'Loading...' : 'Login'}
         onPress={handleLogin}
         disabled={loading}
       />
