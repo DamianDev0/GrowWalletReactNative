@@ -29,7 +29,7 @@ const useRegister = () => {
       if (!globalErrorMessage) {
         setFormData({email: '', password: '', name: ''});
         setErrorMessage(null);
-        navigation.navigate('Home');
+        navigation.navigate('Login');
       } else {
         setErrorMessage(globalErrorMessage);
       }
