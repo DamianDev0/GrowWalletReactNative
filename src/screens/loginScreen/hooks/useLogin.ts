@@ -1,5 +1,4 @@
-import {useState} from 'react';
-import {CustomToast} from '../../../components/toastMessage.component';
+import {useState, useEffect} from 'react';
 import {useAuth} from '../../../context/useAuthContext';
 import useNavigation from '../../../hook/useNavigation';
 import {validateInputs} from '../../../utils/validInputs';
@@ -16,31 +15,30 @@ const useLogin = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleLogin = async () => {
-    if (!validateInputs(formData, setErrorMessage)) {
-      CustomToast({
-        type: 'error',
-        text1: 'Validation Error',
-        text2: errorMessage || 'Invalid inputs.',
-      });
+    if (!validateInputs(formData, setErrorMessage, 'login')) {
       return;
     }
+
     const {email, password} = formData;
 
-    await login(email, password);
+    try {
+      await login(email, password);
+      if (!globalErrorMessage) {
+        setFormData({email: '', password: ''});
+        navigation.navigate('Home');
+      } else {
+        setErrorMessage(globalErrorMessage);
+      }
+    } catch (error: any) {
+      setErrorMessage(error.message || 'An unexpected error occurred.');
+    }
+  };
 
+  useEffect(() => {
     if (globalErrorMessage) {
       setErrorMessage(globalErrorMessage);
-      CustomToast({
-        type: 'error',
-        text1: 'Login Failed',
-        text2: globalErrorMessage,
-      });
-      return;
     }
-    setFormData({email: '', password: ''});
-    navigation.navigate('Home');
-    setErrorMessage(null);
-  };
+  }, [globalErrorMessage]);
 
   const handleSignUpNavigation = () => {
     navigation.navigate('Signup');

@@ -1,12 +1,16 @@
 export const validateInputs = (
   formData: {email: string; password: string; name?: string},
   setErrorMessage: (message: string | null) => void,
-  requireName: boolean = false,
+  context: 'login' | 'register' = 'login',
 ): boolean => {
   const {email, password, name} = formData;
 
-  if (!email || !password || (requireName && !name)) {
-    setErrorMessage('All required fields must be filled.');
+  if (!email || !password || (context === 'register' && !name)) {
+    const message =
+      context === 'register'
+        ? 'All fields must be filled for registration.'
+        : 'All required fields must be filled for login.';
+    setErrorMessage(message);
     return false;
   }
 
