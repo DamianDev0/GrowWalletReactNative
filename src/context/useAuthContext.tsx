@@ -58,7 +58,6 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
 
     try {
       const response = await authService.login({email, password});
-
       if (response && 'data' in response) {
         const {accessToken, id} = response.data;
         if (accessToken && id) {
@@ -74,7 +73,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
       } else {
         throw new Error('Token not found in response');
       }
-    } catch (error: unknown) {
+    } catch (error) {
       const apiError = handleApiError(error);
       handleError(apiError);
     } finally {
@@ -90,9 +89,13 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
       const result = await authService.register({email, password, name});
 
       if ('statusCode' in result) {
-        setErrorMessage(
-          result.message || 'An error occurred during registration.',
-        );
+        if (result.statusCode === 409) {
+          setErrorMessage('Email already in use. Please try a different one.');
+        } else {
+          setErrorMessage(
+            result.message || 'An error occurred during registration.',
+          );
+        }
         CustomToast({
           type: 'error',
           text1: 'Error',

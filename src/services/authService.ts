@@ -22,7 +22,10 @@ const authService = {
     data: RegisterRequest,
   ): Promise<RegisterResponse | ApiError> => {
     try {
-      const response = await apiClient.post('/auth/register', data);
+      const response = await apiClient.post<RegisterResponse>(
+        '/auth/register',
+        data,
+      );
       return response.data;
     } catch (error) {
       const apiError = handleApiError(error);
