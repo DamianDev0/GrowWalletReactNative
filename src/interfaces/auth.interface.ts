@@ -20,7 +20,7 @@ export interface RegisterRequest {
 }
 
 export interface RegisterResponse {
-  code: number;
+  statusCode: number;
   message: string;
   data: {
     id: string;
