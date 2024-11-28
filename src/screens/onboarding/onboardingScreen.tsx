@@ -33,7 +33,7 @@ const slides = [
   },
   {
     id: '4',
-    image: require('../../assets/img/chart.png   '),
+    image: require('../../assets/img/chart.png'),
     title: 'Increase Your Value',
     subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   },
