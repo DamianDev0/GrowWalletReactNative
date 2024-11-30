@@ -25,12 +25,12 @@ const AppNavigation = () => {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
-          options={{headerShown: false}}
+          options={{headerShown: false, animation: 'slide_from_right'}}
         />
         <Stack.Screen
           name="Signup"
           component={SignUpScreen}
-          options={{headerShown: false}}
+          options={{headerShown: false, animation: 'slide_from_right'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

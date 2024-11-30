@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import useNavigation from '../../../hook/useNavigation';
 import {Dimensions} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const COLORS = {primary: '#282534', white: '#fff'};
 
@@ -51,13 +52,14 @@ const Footer: React.FC<FooterProps> = ({
               activeOpacity={0.8}
               style={styles.skipButton}
               onPress={skip}>
-              <Text style={styles.skipButtonText}>SKIP</Text>
+              <Text style={styles.skipButtonText}> SKIP</Text>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.nextButton}
               onPress={goToNextSlide}>
               <Text style={styles.nextButtonText}>NEXT </Text>
+              <AntDesign name="arrowright" size={20} color="#8E44AD" />
             </TouchableOpacity>
           </View>
         )}
@@ -100,12 +102,11 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 50,
     borderRadius: 5,
-    borderColor: COLORS.white,
-    borderWidth: 1,
-    backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
+    backgroundColor: '#000',
+    flexDirection: 'row',
   },
   skipButtonText: {
     fontWeight: 'bold',
@@ -124,7 +125,8 @@ const styles = StyleSheet.create({
   nextButtonText: {
     fontWeight: 'bold',
     fontSize: 15,
-    color: '#8e44ad',
+    color: '#8E44AD',
+    marginRight: 5,
   },
   startButton: {
     height: 50,
@@ -136,10 +138,7 @@ const styles = StyleSheet.create({
   startButtonText: {
     fontWeight: 'bold',
     fontSize: 15,
-    color: '#8e44ad',
-  },
-  iconStyle: {
-    marginTop: 5,
+    color: '#8E44AD',
   },
 });
 

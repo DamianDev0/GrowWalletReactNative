@@ -15,6 +15,8 @@ interface InputProps extends TextInputProps {
   icon?: string;
   keyboardType?: TextInputProps['keyboardType'];
   secureTextEntry?: boolean;
+  backgroundColor?: string;
+  textColor?: string;
 }
 
 const InputGeneric: React.FC<InputProps> = ({
@@ -24,22 +26,25 @@ const InputGeneric: React.FC<InputProps> = ({
   editable = true,
   height = 50,
   width = 350,
-  color,
   marginBottom,
   opacity = 1,
   icon,
   keyboardType,
   secureTextEntry,
+  backgroundColor = '#FFF',
+  textColor = '#FFF',
 }) => {
   return (
-    <View style={[styles.inputContainer, {height, width, marginBottom}]}>
-      {icon && (
-        <Icon name={icon} size={20} color="#000" style={styles.icon} />
-      )}
+    <View
+      style={[
+        styles.inputContainer,
+        {height, width, marginBottom, backgroundColor, opacity},
+      ]}>
+      {icon && <Icon name={icon} size={23} color="#FFF" style={styles.icon} />}
       <TextInput
-        style={[styles.input, {height, width, color, opacity}]}
+        style={[styles.input, {color: textColor}]}
         placeholder={placeholder}
-        placeholderTextColor="rgba(0, 0, 0, 0.5)"
+        placeholderTextColor="rgba(255, 255, 255, 0.5)"
         value={value}
         onChangeText={onChangeText}
         editable={editable}
@@ -54,24 +59,19 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF',
     borderRadius: 10,
     paddingHorizontal: 10,
-    marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 5},
     shadowRadius: 4,
-    elevation: 5,
   },
   icon: {
     marginRight: 10,
   },
   input: {
     flex: 1,
-    padding: 9,
+    paddingVertical: 9,
     borderRadius: 10,
-    backgroundColor: '#FFF',
-    color: '#000',
   },
 });
 
