@@ -17,25 +17,25 @@ const slides = [
     id: '1',
     image: require('../../assets/img/welcome.png'),
     title: 'Welcome to GrowWallet',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    subtitle: 'Manage your finances with ease and confidence.',
   },
   {
     id: '2',
     image: require('../../assets/img/wallet.png'),
-    title: 'Achieve Your Goals',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    title: 'Secure Your Savings',
+    subtitle: 'Safely store your money and access it anytime.',
   },
   {
     id: '3',
     image: require('../../assets/img/sell.png'),
-    title: 'Increase Your Value',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    title: 'Plan and Transact',
+    subtitle: 'Create budgets and make transactions effortlessly.',
   },
   {
     id: '4',
     image: require('../../assets/img/chart.png'),
-    title: 'Increase Your Value',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    title: 'Track Your Expenses',
+    subtitle: 'Analyze your spending with detailed statistics.',
   },
 ];
 

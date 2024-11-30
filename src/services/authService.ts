@@ -7,6 +7,7 @@ import {
 } from '../interfaces/auth.interface';
 import {handleApiError, ApiError} from '../utils/errorHandler';
 
+
 const authService = {
   login: async (data: LoginRequest): Promise<LoginResponse | ApiError> => {
     try {
