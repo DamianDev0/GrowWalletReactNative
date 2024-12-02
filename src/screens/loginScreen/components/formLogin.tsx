@@ -125,10 +125,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'center',
     backgroundColor: 'rgba(255, 255, 255,0.2)',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     width: width * 1,
-    height: height * 0.4,
+    height: height * 0.41,
     shadowColor: '#000',
   },
 

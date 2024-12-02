@@ -3,4 +3,5 @@ export type NavigationParams = {
   Onboarding: undefined;
   Login: undefined;
   Signup: undefined;
+  Wallet: undefined;
 };
