@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import React, {
   createContext,
   useContext,
@@ -13,6 +14,8 @@ import {handleApiError, ApiError} from '../utils/errorHandler';
 interface AuthContextProps {
   token: string | null;
   userId: string | null;
+  name: string | null;
+  walletId: string | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, name: string) => Promise<void>;
@@ -32,6 +35,8 @@ export const AuthContext = createContext<AuthContextProps | undefined>(
 export const AuthProvider = ({children}: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
+  const [walletId, setWalletId] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -43,9 +48,13 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   const loadStoredToken = async () => {
     const storedToken = await AsyncStorage.getItem('token');
     const storedUserId = await AsyncStorage.getItem('userId');
-    if (storedToken && storedUserId) {
+    const storedName = await AsyncStorage.getItem('name');
+    const storedWalletId = await AsyncStorage.getItem('walletId');
+    if (storedToken && storedUserId && storedName && storedWalletId) {
       setToken(storedToken);
       setUserId(storedUserId);
+      setName(storedName);
+      setWalletId(storedWalletId);
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
@@ -55,13 +64,12 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   const login = async (email: string, password: string) => {
     setLoading(true);
     resetMessages();
-
     try {
       const response = await authService.login({email, password});
       if (response && 'data' in response) {
-        const {accessToken, id} = response.data;
-        if (accessToken && id) {
-          await storeToken(accessToken, id);
+        const {accessToken, id, name, walletId} = response.data;
+        if (accessToken && id && name && walletId) {
+          await storeToken(accessToken, id, name, walletId);
           CustomToast({
             type: 'success',
             text1: 'Login Successful',
@@ -84,10 +92,8 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   const signUp = async (email: string, password: string, name: string) => {
     setLoading(true);
     resetMessages();
-
     try {
       const result = await authService.register({email, password, name});
-
       if ('statusCode' in result) {
         if (result.statusCode === 409) {
           setErrorMessage('Email already in use. Please try a different one.');
@@ -134,18 +140,28 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     setErrorMessage(null);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const storeToken = async (token: string, userId: string) => {
+  const storeToken = async (
+    token: string,
+    userId: string,
+    name: string,
+    walletId: string,
+  ) => {
     await AsyncStorage.setItem('token', token);
     await AsyncStorage.setItem('userId', userId);
+    await AsyncStorage.setItem('name', name);
+    await AsyncStorage.setItem('walletId', walletId);
     setToken(token);
     setUserId(userId);
+    setName(name);
+    setWalletId(walletId);
     setIsAuthenticated(true);
   };
 
   const logout = async () => {
-    await AsyncStorage.multiRemove(['token', 'userId']);
+    await AsyncStorage.multiRemove(['token', 'userId', 'name', 'walletId']);
     setUserId(null);
+    setName(null);
+    setWalletId(null);
     setIsAuthenticated(false);
     setToken(null);
     CustomToast({
@@ -160,6 +176,8 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
       value={{
         token,
         userId,
+        name,
+        walletId,
         isAuthenticated,
         login,
         logout,

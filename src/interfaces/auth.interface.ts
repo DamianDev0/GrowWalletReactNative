@@ -5,6 +5,8 @@ export interface LoginResponse {
   data: {
     accessToken: string;
     id: string;
+    name: string;
+    walletId: string;
   };
 }
 
