@@ -1,14 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import useNavigation from '../../hook/useNavigation';
+import {StyleSheet, View} from 'react-native';
 import HeaderHome from './components/headerHome';
 import LinearGradient from 'react-native-linear-gradient';
+import Categories from './components/categories';
 const HomeScreen = () => {
-  const navigation = useNavigation();
-
-  const HandleOboarding = () => {
-    navigation.navigate('Onboarding');
-  };
   return (
     <LinearGradient
       colors={['#000000', '#6a1b9a', '#000000']}
@@ -17,10 +12,8 @@ const HomeScreen = () => {
       style={styles.container}>
       <View>
         <HeaderHome />
-        <TouchableOpacity onPress={HandleOboarding}>
-          <Text>Go to onboarding</Text>
-        </TouchableOpacity>
       </View>
+      <Categories />
     </LinearGradient>
   );
 };
