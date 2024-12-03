@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useAuth} from '../../../context/useAuthContext';
 import useWalletBalance from '../hooks/useHeader';
@@ -30,11 +30,10 @@ const HeaderHome: React.FC = () => {
       {loading && <Text style={styles.loadingText}>Loading balance...</Text>}
       {error && <Text style={styles.errorText}>{error}</Text>}
       {wallet && (
-        <LinearGradient
-        colors={['#8E2DE2', '#D862BC', '#7C00FE']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-          style={styles.card}>
+        <ImageBackground
+          source={require('../../../assets/img/3.png')}
+          style={styles.card}
+          imageStyle={styles.cardImage}>
           <Text style={styles.cardLogo}>GrowWallet</Text>
           <Image
             source={require('../../../assets/img/chip.png')}
@@ -44,7 +43,7 @@ const HeaderHome: React.FC = () => {
           <Text style={styles.cardBalance}>
             {wallet.balance.toLocaleString()} {wallet.currency}
           </Text>
-        </LinearGradient>
+        </ImageBackground>
       )}
     </View>
   );
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 18,
     alignItems: 'center',
-    height: height * 0.45,
+    height: height * 0.38,
   },
   headerRow: {
     flexDirection: 'row',
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
   card: {
     marginTop: 30,
     borderRadius: 16,
-    width: width * 0.95,
+    width: width * 0.9,
     height: height * 0.27,
     padding: 20,
     position: 'relative',
@@ -85,6 +84,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 8,
+  },
+  cardImage: {
+    borderRadius: 10,
   },
   chip: {
     width: 50,
