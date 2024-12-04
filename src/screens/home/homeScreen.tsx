@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import HeaderHome from './components/headerHome';
 import LinearGradient from 'react-native-linear-gradient';
 import Categories from './components/categories';
+import Transactions from './components/transaction';
 const HomeScreen = () => {
   return (
     <LinearGradient
@@ -14,6 +15,7 @@ const HomeScreen = () => {
         <HeaderHome />
       </View>
       <Categories />
+      <Transactions />
     </LinearGradient>
   );
 };
