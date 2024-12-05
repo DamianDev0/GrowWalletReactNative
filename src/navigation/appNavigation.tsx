@@ -2,13 +2,13 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationParams} from '../types/navigation.types';
-import HomeScreen from '../screens/home/homeScreen';
 import OnboardingScreen from '../screens/onboarding/onboardingScreen';
 import SignUpScreen from '../screens/signUpScreen/signUpScreen';
 import LoginScreen from '../screens/loginScreen/loginScreen';
 import WalletScreen from '../screens/wallet/walletScreen';
 import {useAuth} from '../context/useAuthContext';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { MyTabs } from './TabsNavigation';
 
 const Stack = createNativeStackNavigator<NavigationParams>();
 
@@ -24,7 +24,7 @@ const AppNavigation = () => {
             <>
               <Stack.Screen
                 name="Home"
-                component={HomeScreen}
+                component={MyTabs}
                 options={{headerShown: false}}
               />
               <Stack.Screen

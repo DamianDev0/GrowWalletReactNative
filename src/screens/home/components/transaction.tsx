@@ -36,8 +36,8 @@ const Transactions = () => {
           <Text style={styles.textTitle} numberOfLines={1} ellipsizeMode="tail">
             {item.name}
           </Text>
-          <Text style={styles.textDate}>{item.date}</Text>
           <Text style={styles.textDate}>{item.description}</Text>
+          <Text style={styles.textDate}>{item.date}</Text>
         </View>
         <View>
           <Text style={styles.textAmount}>${item.amount}</Text>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bottomSheetContainer: {
-    flexGrow: 1,
+    flexGrow: 1.4,
     padding: 16,
     backgroundColor: 'transparent',
   },
@@ -96,10 +96,11 @@ const styles = StyleSheet.create({
   },
   containerCard: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    width: width * 0.9,
-    height: height * 0.08,
+    width: width * 0.8,
+    height: height * 0.07,
+    padding: 10,
   },
   bottomSheetBackground: {
     backgroundColor: 'transparent',
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   textTitle: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 8,
     color: '#ffff',
@@ -136,11 +137,11 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   icon: {
-    width: 50,
-    height: 50,
+    width: 55,
+    height: 55,
     resizeMode: 'contain',
     marginTop: 8,
-    marginHorizontal: -30,
+    marginHorizontal: -20,
   },
   loading: {
     fontSize: 18,

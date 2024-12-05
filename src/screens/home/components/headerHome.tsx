@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 18,
     alignItems: 'center',
-    height: height * 0.38,
+    height: height * 0.31,
+    marginBottom: 10
   },
   headerRow: {
     flexDirection: 'row',
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    marginTop: 30,
+    marginTop: 15,
     borderRadius: 16,
     width: width * 0.9,
     height: height * 0.27,
