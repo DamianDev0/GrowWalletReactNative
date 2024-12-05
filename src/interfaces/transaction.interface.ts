@@ -12,6 +12,8 @@ export interface DataItem {
   id: string;
   amount: string;
   date: string;
+  name: string;
+  store: string
   description: string;
   createdAt: string;
   updatedAt: string;

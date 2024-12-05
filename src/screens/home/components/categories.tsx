@@ -51,7 +51,7 @@ const Categories = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.6,
+    flex: 0.9,
     padding: 10,
   },
   title: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: width * 0.5,
-    height: height * 0.1,
+    height: height * 0.08,
     shadowColor: '#E59BE9',
   },
   itemName: {
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   icon: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     resizeMode: 'contain',
   },
 });
