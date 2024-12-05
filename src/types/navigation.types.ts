@@ -5,3 +5,8 @@ export type NavigationParams = {
   Signup: undefined;
   Wallet: undefined;
 };
+
+export type NavigationTab = {
+  HomeTab: undefined;
+  Chart: undefined;
+};
