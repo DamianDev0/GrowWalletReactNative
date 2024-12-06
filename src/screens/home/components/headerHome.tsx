@@ -8,7 +8,7 @@ import {
   Dimensions,
   ImageBackground,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {useAuth} from '../../../context/useAuthContext';
 import useWalletBalance from '../hooks/useHeader';
 
@@ -23,7 +23,7 @@ const HeaderHome: React.FC = () => {
       <View style={styles.headerRow}>
         <Text style={styles.greeting}>Hello, {name}!</Text>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Icon name="sign-out" size={24} color="#FFF" />
+          <Icon name="logout" size={24} color="#FFF" />
         </TouchableOpacity>
       </View>
 
@@ -121,12 +121,12 @@ const styles = StyleSheet.create({
     right: 20,
   },
   loadingText: {
-    fontSize: 18,
+    fontSize: 12,
     color: '#FFF',
     marginTop: 20,
   },
   errorText: {
-    fontSize: 18,
+    fontSize: 12,
     color: 'red',
     marginTop: 20,
   },

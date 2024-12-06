@@ -8,7 +8,8 @@ import LoginScreen from '../screens/loginScreen/loginScreen';
 import WalletScreen from '../screens/wallet/walletScreen';
 import {useAuth} from '../context/useAuthContext';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import { MyTabs } from './TabsNavigation';
+import {MyTabs} from './TabsNavigation';
+import BudgetAndTransactionScreen from '../screens/budgetAndTransaction/budgetAndTransactionScreen';
 
 const Stack = createNativeStackNavigator<NavigationParams>();
 
@@ -30,6 +31,11 @@ const AppNavigation = () => {
               <Stack.Screen
                 name="Wallet"
                 component={WalletScreen}
+                options={{headerShown: false, animation: 'slide_from_right'}}
+              />
+              <Stack.Screen
+                name="BudgetAndTransactionScreen"
+                component={BudgetAndTransactionScreen}
                 options={{headerShown: false, animation: 'slide_from_right'}}
               />
             </>
