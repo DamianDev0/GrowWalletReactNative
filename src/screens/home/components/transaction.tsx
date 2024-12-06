@@ -51,7 +51,7 @@ const Transactions = () => {
   }
 
   if (error) {
-    return <Text style={styles.error}>Error: {error.message}</Text>;
+    return <Text style={styles.error}>{error.message}</Text>;
   }
 
   return (
@@ -150,9 +150,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   error: {
-    fontSize: 18,
+    fontSize: 12,
     color: 'red',
-    textAlign: 'center',
     marginTop: 20,
   },
   title: {

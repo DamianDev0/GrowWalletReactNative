@@ -7,12 +7,17 @@ import {
   Image,
   StyleSheet,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
+
 import useCategories from '../hooks/useCategories';
+import useNavigation from '../../../hook/useNavigation';
 
 const {width, height} = Dimensions.get('screen');
+
 const Categories = () => {
   const {categories, error, loading} = useCategories();
+  const navigation = useNavigation();
 
   if (loading) {
     return (
@@ -39,10 +44,19 @@ const Categories = () => {
         keyExtractor={item => item.id}
         numColumns={3}
         renderItem={({item}) => (
-          <View style={styles.itemContainer}>
+          <TouchableOpacity
+            style={styles.itemContainer}
+            onPress={() =>
+              navigation.navigate('BudgetAndTransactionScreen', {
+                id: item.id,
+                name: item.name,
+                description: item.description,
+                icon: item.icon,
+              })
+            }>
             <Image source={{uri: item.icon}} style={styles.icon} />
             <Text style={styles.itemName}>{item.name}</Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -83,7 +97,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    fontSize: 16,
+    fontSize: 12,
   },
   icon: {
     width: 45,

@@ -4,6 +4,7 @@ export type NavigationParams = {
   Login: undefined;
   Signup: undefined;
   Wallet: undefined;
+  BudgetAndTransactionScreen: {id: string, name: string, description: string, icon: string,};
 };
 
 export type NavigationTab = {
