@@ -1,21 +1,16 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import authService from '../services/authService';
-import {CustomToast} from '../components/toastMessage.component';
-import {handleApiError, ApiError} from '../utils/errorHandler';
+import { CustomToast } from '../components/toastMessage.component';
+import { handleApiError, ApiError } from '../utils/errorHandler';
 
 interface AuthContextProps {
   token: string | null;
   userId: string | null;
   name: string | null;
   walletId: string | null;
+  email: string | null;
+  password: string | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, name: string) => Promise<void>;
@@ -28,15 +23,15 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthContext = createContext<AuthContextProps | undefined>(
-  undefined,
-);
+export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider = ({children}: AuthProviderProps) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
   const [walletId, setWalletId] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -50,11 +45,22 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     const storedUserId = await AsyncStorage.getItem('userId');
     const storedName = await AsyncStorage.getItem('name');
     const storedWalletId = await AsyncStorage.getItem('walletId');
-    if (storedToken && storedUserId && storedName && storedWalletId) {
+    const storedEmail = await AsyncStorage.getItem('email');
+    const storedPassword = await AsyncStorage.getItem('password');
+    if (
+      storedToken &&
+      storedUserId &&
+      storedName &&
+      storedWalletId &&
+      storedEmail &&
+      storedPassword
+    ) {
       setToken(storedToken);
       setUserId(storedUserId);
       setName(storedName);
       setWalletId(storedWalletId);
+      setEmail(storedEmail);
+      setPassword(storedPassword);
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
@@ -65,11 +71,14 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     setLoading(true);
     resetMessages();
     try {
-      const response = await authService.login({email, password});
+      console.log('Trying to log in with:', { email, password });
+      const response = await authService.login({ email, password });
+      console.log('Login response:', response);
       if (response && 'data' in response) {
-        const {accessToken, id, name, walletId} = response.data;
+        const { accessToken, id, name, walletId } = response.data;
+        console.log('Extracted data:', { accessToken, id, name, walletId });
         if (accessToken && id && name && walletId) {
-          await storeToken(accessToken, id, name, walletId);
+          await storeToken(accessToken, id, name, walletId, email, password);
           CustomToast({
             type: 'success',
             text1: 'Login Successful',
@@ -82,6 +91,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         throw new Error('Token not found in response');
       }
     } catch (error) {
+      console.error('Login error:', error);
       const apiError = handleApiError(error);
       handleError(apiError);
     } finally {
@@ -93,7 +103,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     setLoading(true);
     resetMessages();
     try {
-      const result = await authService.register({email, password, name});
+      const result = await authService.register({ email, password, name });
       if ('statusCode' in result) {
         if (result.statusCode === 409) {
           setErrorMessage('Email already in use. Please try a different one.');
@@ -145,23 +155,38 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     userId: string,
     name: string,
     walletId: string,
+    email: string,
+    password: string,
   ) => {
     await AsyncStorage.setItem('token', token);
     await AsyncStorage.setItem('userId', userId);
     await AsyncStorage.setItem('name', name);
     await AsyncStorage.setItem('walletId', walletId);
+    await AsyncStorage.setItem('email', email);
+    await AsyncStorage.setItem('password', password);
     setToken(token);
     setUserId(userId);
     setName(name);
     setWalletId(walletId);
+    setEmail(email);
+    setPassword(password);
     setIsAuthenticated(true);
   };
 
   const logout = async () => {
-    await AsyncStorage.multiRemove(['token', 'userId', 'name', 'walletId']);
+    await AsyncStorage.multiRemove([
+      'token',
+      'userId',
+      'name',
+      'walletId',
+      'email',
+      'password',
+    ]);
     setUserId(null);
     setName(null);
     setWalletId(null);
+    setEmail(null);
+    setPassword(null);
     setIsAuthenticated(false);
     setToken(null);
     CustomToast({
@@ -178,6 +203,8 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         userId,
         name,
         walletId,
+        email,
+        password,
         isAuthenticated,
         login,
         logout,

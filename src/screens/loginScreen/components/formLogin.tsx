@@ -13,7 +13,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import GenericButton from '../../../components/genericButton.component';
 import InputGeneric from '../../../components/genericInput.component';
-import useRegister from '../hooks/useLogin';
+import useLogin from '../hooks/useLogin';
 import {CustomToast} from '../../../components/toastMessage.component';
 
 const {width, height} = Dimensions.get('screen');
@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
     errorMessage,
     loading,
     handleSignUpNavigation,
-  } = useRegister();
+  } = useLogin();
 
   useEffect(() => {
     if (errorMessage) {
