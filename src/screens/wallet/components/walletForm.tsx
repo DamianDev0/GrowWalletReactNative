@@ -10,10 +10,13 @@ import {
 } from 'react-native';
 import GenericButton from '../../../components/genericButton.component';
 import InputGeneric from '../../../components/genericInput.component';
+import useCreateWallet from '../hook/useWallet';
 
-const { width, height } = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const WalletForm = () => {
+  const {budget, setBudget, handleCreateWallet, loading} = useCreateWallet();
+
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView
@@ -31,8 +34,8 @@ const WalletForm = () => {
           <View style={styles.inputContainer}>
             <InputGeneric
               placeholder="Budget"
-              value=""
-              onChangeText={() => {}}
+              value={budget}
+              onChangeText={setBudget}
               icon="wallet"
               width={width * 0.8}
               backgroundColor="rgba(0, 0, 0, 0.3)"
@@ -41,8 +44,8 @@ const WalletForm = () => {
           </View>
           <View style={styles.buttonContainer}>
             <GenericButton
-              title="Next"
-              onPress={() => {}}
+              title={loading ? 'Creating...' : 'Next'}
+              onPress={handleCreateWallet}
               backgroundColor="#000000"
               color="#FFFF"
             />

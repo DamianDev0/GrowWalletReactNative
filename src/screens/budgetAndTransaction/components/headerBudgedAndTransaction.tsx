@@ -13,24 +13,26 @@ import ModalComponentBudget from './ModalComponentBudget';
 import ModalComponentTransactions from './ModalComponentTransactions';
 import useTransaction from '../hooks/useTransactions';
 
-const {width, height} = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 
 interface HeaderBudgetAndTransactionProps {
   name: string;
   description: string;
   icon: string;
+  categoryId: string;
 }
 
 const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
   name,
   description,
   icon,
+  categoryId,
 }) => {
   const {
     isVisible: isBudgetVisible,
     openModal: openBudgetModal,
     closeModal: closeBudgetModal,
-  } = useBudget();
+  } = useBudget(categoryId);
   const {
     isVisible: isTransactionVisible,
     openModal: openTransactionModal,
@@ -50,13 +52,14 @@ const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
         </TouchableOpacity>
       </View>
 
-      <Image source={{uri: icon}} style={styles.icon} />
+      <Image source={{ uri: icon }} style={styles.icon} />
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.description}>{description}</Text>
 
       <ModalComponentBudget
         isVisible={isBudgetVisible}
         closeModal={closeBudgetModal}
+        categoryId={categoryId}
       />
       <ModalComponentTransactions
         isVisible={isTransactionVisible}
