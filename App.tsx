@@ -1,20 +1,22 @@
 import 'react-native-reanimated';
 import React from 'react';
-import AppNavigation from './src/navigation/appNavigation';
-import Toast from 'react-native-toast-message';
-import {AuthProvider} from './src/context/useAuthContext';
+import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
+import { AuthProvider } from './src/context/useAuthContext';
+import AppNavigation from './src/navigation/appNavigation';
 
 function App() {
   return (
-    <>
+    // eslint-disable-next-line react-native/no-inline-styles
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthProvider>
-        <AppNavigation />
-        <Toast />
-      </AuthProvider>
-      </GestureHandlerRootView>
-    </>
+      <NavigationContainer>
+        <AuthProvider>
+          <AppNavigation />
+          <Toast />
+        </AuthProvider>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 

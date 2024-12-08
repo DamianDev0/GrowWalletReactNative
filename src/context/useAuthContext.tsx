@@ -1,9 +1,18 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-shadow */
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import authService from '../services/authService';
 import { CustomToast } from '../components/toastMessage.component';
-import { handleApiError, ApiError } from '../utils/errorHandler';
+import { handleApiError } from '../utils/errorHandler';
+import useNavigation from '../hook/useNavigation';
 
+// Tipos para el contexto de autenticación
 interface AuthContextProps {
   token: string | null;
   userId: string | null;
@@ -23,9 +32,13 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+// Creación del contexto
+export const AuthContext = createContext<AuthContextProps | undefined>(
+  undefined,
+);
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+// Componente proveedor del contexto
+export const AuthProvider = ({children}: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
@@ -35,55 +48,60 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     loadStoredToken();
   }, []);
 
+  // Carga el token y otros datos desde AsyncStorage
   const loadStoredToken = async () => {
-    const storedToken = await AsyncStorage.getItem('token');
-    const storedUserId = await AsyncStorage.getItem('userId');
-    const storedName = await AsyncStorage.getItem('name');
-    const storedWalletId = await AsyncStorage.getItem('walletId');
-    const storedEmail = await AsyncStorage.getItem('email');
-    const storedPassword = await AsyncStorage.getItem('password');
-    if (
-      storedToken &&
-      storedUserId &&
-      storedName &&
-      storedWalletId &&
-      storedEmail &&
-      storedPassword
-    ) {
-      setToken(storedToken);
-      setUserId(storedUserId);
-      setName(storedName);
-      setWalletId(storedWalletId);
-      setEmail(storedEmail);
-      setPassword(storedPassword);
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
+    try {
+      const storedToken = await AsyncStorage.getItem('token');
+      const storedUserId = await AsyncStorage.getItem('userId');
+      const storedName = await AsyncStorage.getItem('name');
+      const storedWalletId = await AsyncStorage.getItem('walletId');
+      const storedEmail = await AsyncStorage.getItem('email');
+      const storedPassword = await AsyncStorage.getItem('password');
+
+      if (
+        storedToken &&
+        storedUserId &&
+        storedName &&
+        storedEmail &&
+        storedPassword
+      ) {
+        setToken(storedToken);
+        setUserId(storedUserId);
+        setName(storedName);
+        setWalletId(storedWalletId);
+        setEmail(storedEmail);
+        setPassword(storedPassword);
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch (error) {
+      console.error('Error loading stored data:', error);
     }
   };
 
   const login = async (email: string, password: string) => {
     setLoading(true);
     resetMessages();
+
     try {
-      console.log('Trying to log in with:', { email, password });
-      const response = await authService.login({ email, password });
-      console.log('Login response:', response);
+      const response = await authService.login({email, password});
       if (response && 'data' in response) {
-        const { accessToken, id, name, walletId } = response.data;
-        console.log('Extracted data:', { accessToken, id, name, walletId });
-        if (accessToken && id && name && walletId) {
+        const {accessToken, id, name, walletId} = response.data;
+        if (accessToken && id && name) {
           await storeToken(accessToken, id, name, walletId, email, password);
           CustomToast({
             type: 'success',
             text1: 'Login Successful',
             text2: 'Welcome back!',
           });
+          handleNavigation(walletId);
         } else {
           throw new Error('Invalid login response');
         }
@@ -91,9 +109,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         throw new Error('Token not found in response');
       }
     } catch (error) {
-      console.error('Login error:', error);
       const apiError = handleApiError(error);
-      handleError(apiError);
+      handleApiError(apiError);
     } finally {
       setLoading(false);
     }
@@ -102,20 +119,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signUp = async (email: string, password: string, name: string) => {
     setLoading(true);
     resetMessages();
+
     try {
-      const result = await authService.register({ email, password, name });
-      if ('statusCode' in result) {
-        if (result.statusCode === 409) {
-          setErrorMessage('Email already in use. Please try a different one.');
-        } else {
-          setErrorMessage(
-            result.message || 'An error occurred during registration.',
-          );
-        }
+      const result = await authService.register({email, password, name});
+      if ('statusCode' in result && result.statusCode === 409) {
+        setErrorMessage('Email already in use. Please try a different one.');
         CustomToast({
           type: 'error',
           text1: 'Error',
-          text2: result.message || 'An error occurred during registration.',
+          text2: 'Email already in use.',
         });
       } else {
         CustomToast({
@@ -123,77 +135,79 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           text1: 'Registration Successful',
           text2: 'Your account has been created.',
         });
+        navigation.navigate('Wallet');
       }
     } catch (error) {
       console.error('Sign-up failed:', error);
       setErrorMessage('An unexpected error occurred. Please try again.');
-      CustomToast({
-        type: 'error',
-        text1: 'Error',
-        text2: 'An unexpected error occurred. Please try again.',
-      });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleError = (error: ApiError) => {
-    setErrorMessage(error.message || 'An unexpected error occurred.');
-    CustomToast({
-      type: 'error',
-      text1: 'Error',
-      text2: error.message || 'An unexpected error occurred.',
-    });
-  };
-
-  const resetMessages = () => {
-    setErrorMessage(null);
-  };
+  const resetMessages = () => setErrorMessage(null);
 
   const storeToken = async (
     token: string,
     userId: string,
     name: string,
-    walletId: string,
+    walletId: string | null,
     email: string,
     password: string,
   ) => {
-    await AsyncStorage.setItem('token', token);
-    await AsyncStorage.setItem('userId', userId);
-    await AsyncStorage.setItem('name', name);
-    await AsyncStorage.setItem('walletId', walletId);
-    await AsyncStorage.setItem('email', email);
-    await AsyncStorage.setItem('password', password);
-    setToken(token);
-    setUserId(userId);
-    setName(name);
-    setWalletId(walletId);
-    setEmail(email);
-    setPassword(password);
-    setIsAuthenticated(true);
+    try {
+      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('userId', userId);
+      await AsyncStorage.setItem('name', name);
+      if (walletId) {await AsyncStorage.setItem('walletId', walletId);}
+      await AsyncStorage.setItem('email', email);
+      await AsyncStorage.setItem('password', password);
+
+      setToken(token);
+      setUserId(userId);
+      setName(name);
+      setWalletId(walletId);
+      setEmail(email);
+      setPassword(password);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error('Error storing token:', error);
+    }
+  };
+
+  const handleNavigation = (walletId: string | null) => {
+    if (!walletId) {
+      navigation.navigate('Wallet');
+    } else {
+      navigation.navigate('Home');
+    }
   };
 
   const logout = async () => {
-    await AsyncStorage.multiRemove([
-      'token',
-      'userId',
-      'name',
-      'walletId',
-      'email',
-      'password',
-    ]);
-    setUserId(null);
-    setName(null);
-    setWalletId(null);
-    setEmail(null);
-    setPassword(null);
-    setIsAuthenticated(false);
-    setToken(null);
-    CustomToast({
-      type: 'info',
-      text1: 'Logged out',
-      text2: 'You have been logged out successfully.',
-    });
+    try {
+      await AsyncStorage.multiRemove([
+        'token',
+        'userId',
+        'name',
+        'walletId',
+        'email',
+        'password',
+      ]);
+      setToken(null);
+      setUserId(null);
+      setName(null);
+      setWalletId(null);
+      setEmail(null);
+      setPassword(null);
+      setIsAuthenticated(false);
+      CustomToast({
+        type: 'info',
+        text1: 'Logged out',
+        text2: 'You have been logged out successfully.',
+      });
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   };
 
   return (
@@ -208,9 +222,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isAuthenticated,
         login,
         logout,
+        signUp,
         loading,
         errorMessage,
-        signUp,
       }}>
       {children}
     </AuthContext.Provider>

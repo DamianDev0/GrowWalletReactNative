@@ -50,8 +50,18 @@ const Transactions = () => {
     return <Text style={styles.loading}>Loading...</Text>;
   }
 
-  if (error) {
-    return <Text style={styles.error}>{error.message}</Text>;
+  if (error || !transactions.length) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>
+          {error ? 'No transactions available.' : 'No transactions available.'}
+        </Text>
+        <Image
+          source={require('../../../assets/img/Saly-45.png')}
+          style={styles.emptyImage}
+        />
+      </View>
+    );
   }
 
   return (
@@ -115,15 +125,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-evenly',
   },
-  text: {
-    fontSize: 16,
-    color: '#FFF',
-  },
   textTitle: {
     fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#ffff',
+    color: '#fff',
     width: width * 0.23,
   },
   textDate: {
@@ -149,17 +155,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
   },
-  error: {
-    fontSize: 12,
-    color: 'red',
-    marginTop: 20,
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  title: {
-    fontSize: 16,
+  emptyImage: {
+    width: width * 0.8,
+    height: height * 0.25,
+    marginBottom: 20,
+    resizeMode: 'contain',
+  },
+  emptyText: {
+    fontSize: 13,
+    color: '#aaa',
+    textAlign: 'center',
+    marginTop: 60,
     fontWeight: 'bold',
-    color: '#FFFFFF',
-    paddingHorizontal: 5,
-    marginBottom: 16,
   },
   titleTransaction: {
     fontSize: 15,
