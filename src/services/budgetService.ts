@@ -2,7 +2,7 @@ import {ApiResponse} from '../interfaces/transaction.interface';
 import {ApiError} from '../utils/errorHandler';
 import {handleApiError} from '../utils/errorHandler';
 import apiClient from '../api/apiClient';
-import {BudgetResponse} from '../interfaces/budge.interface';
+import {BudgetResponse, BudgetStatsData} from '../interfaces/budget.interface';
 
 const budgetService = {
   createBudget: async (
@@ -73,6 +73,33 @@ const budgetService = {
       if (Array.isArray(response.data.data)) {
         throw new Error('Unexpected array response');
       }
+
+      return response.data.data;
+    } catch (error) {
+      const apiError = handleApiError(error);
+      return apiError;
+    }
+  },
+
+  getBudgetStats: async (
+    token: string,
+    budgetId: string,
+  ): Promise<BudgetStatsData | ApiError> => {
+    try {
+      const response = await apiClient.get<ApiResponse<BudgetStatsData>>(
+        `/budget/stats/${budgetId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (Array.isArray(response.data.data)) {
+        throw new Error('Unexpected array response');
+      }
+
+      console.log('response My bro', JSON.stringify(response.data));
 
       return response.data.data;
     } catch (error) {
