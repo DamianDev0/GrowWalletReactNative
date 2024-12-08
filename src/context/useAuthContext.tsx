@@ -12,7 +12,6 @@ import { CustomToast } from '../components/toastMessage.component';
 import { handleApiError } from '../utils/errorHandler';
 import useNavigation from '../hook/useNavigation';
 
-// Tipos para el contexto de autenticación
 interface AuthContextProps {
   token: string | null;
   userId: string | null;
@@ -32,12 +31,11 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-// Creación del contexto
 export const AuthContext = createContext<AuthContextProps | undefined>(
   undefined,
 );
 
-// Componente proveedor del contexto
+
 export const AuthProvider = ({children}: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);

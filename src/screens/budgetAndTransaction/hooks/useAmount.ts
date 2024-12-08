@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import budgetService from '../../../services/budgetService';
 import {useAuth} from '../../../context/useAuthContext';
-import {BudgetResponse} from '../../../interfaces/budge.interface';
+import {BudgetResponse} from '../../../interfaces/budget.interface';
 import Toast from 'react-native-toast-message';
 
 const useBudgetByCategory = (categoryId: string): BudgetResponse | null => {
