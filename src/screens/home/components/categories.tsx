@@ -9,9 +9,9 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-
 import useCategories from '../hooks/useCategories';
 import useNavigation from '../../../hook/useNavigation';
+import LinearGradient from 'react-native-linear-gradient';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -54,6 +54,12 @@ const Categories = () => {
                 icon: item.icon,
               })
             }>
+            <LinearGradient
+              colors={['#2b1557', '#154360']}
+              start={{x: 0, y: 0.5}}
+              end={{x: 2, y: 1}}
+              style={styles.gradientBackground}
+            />
             <Image source={{uri: item.icon}} style={styles.icon} />
             <Text style={styles.itemName}>{item.name}</Text>
           </TouchableOpacity>
@@ -80,13 +86,17 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 8,
     padding: 16,
-    backgroundColor: 'rgba(229, 155, 233, 0.1)',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     width: width * 0.5,
     height: height * 0.08,
     shadowColor: '#E59BE9',
+    position: 'relative',
+  },
+  gradientBackground: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 8,
   },
   itemName: {
     color: 'white',

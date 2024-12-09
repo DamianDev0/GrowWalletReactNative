@@ -1,26 +1,32 @@
 import React from 'react';
-import {View, Image, StyleSheet, Dimensions} from 'react-native';
+import { View, Image, StyleSheet, Dimensions } from 'react-native';
 import GenericModal from '../../../components/modal.component';
 import InputGeneric from '../../../components/genericInput.component';
 import GenericButton from '../../../components/genericButton.component';
+import  useTransaction  from '../hooks/useTransactions';
 
-const {width, height} = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 
 interface ModalComponentTransactionsProps {
   isVisible: boolean;
   closeModal: () => void;
+  budgetId: string;
 }
 
 const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
   isVisible,
   closeModal,
+  budgetId,
 }) => {
+  const { formData, setFormData, handleSave } = useTransaction(budgetId);
+
   return (
     <GenericModal
       isVisible={isVisible}
       onClose={closeModal}
       animationIn="slideInUp"
-      animationOut="slideOutDown">
+      animationOut="slideOutDown"
+    >
       <Image
         source={require('../../../assets/img/Saly-33.png')}
         style={styles.modalImage}
@@ -30,16 +36,30 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
           icon="wallet"
           placeholder="Amount"
           backgroundColor="rgba(0, 0, 0, 0.3)"
+          keyboardType='decimal-pad'
+          value={formData.amount}
+          onChangeText={(text) => setFormData({ ...formData, amount: text })}
         />
         <InputGeneric
           icon="filetext1"
           placeholder="Description"
           backgroundColor="rgba(0, 0, 0, 0.3)"
+          value={formData.description}
+          onChangeText={(text) => setFormData({ ...formData, description: text })}
         />
         <InputGeneric
           icon="shoppingcart"
           placeholder="Store"
           backgroundColor="rgba(0, 0, 0, 0.3)"
+          value={formData.store}
+          onChangeText={(text) => setFormData({ ...formData, store: text })}
+        />
+        <InputGeneric
+          icon="user"
+          placeholder="Name"
+          backgroundColor="rgba(0, 0, 0, 0.3)"
+          value={formData.name}
+          onChangeText={(text) => setFormData({ ...formData, name: text })}
         />
       </View>
       <View style={styles.buttonsModal}>
@@ -51,6 +71,7 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
           width={165}
         />
         <GenericButton
+          onPress={handleSave}
           title="Save"
           backgroundColor="#000"
           color="#FFFF"

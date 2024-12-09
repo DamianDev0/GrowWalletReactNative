@@ -12,14 +12,16 @@ import useBudget from '../hooks/useBudget';
 import ModalComponentBudget from './ModalComponentBudget';
 import ModalComponentTransactions from './ModalComponentTransactions';
 import useTransaction from '../hooks/useTransactions';
+import LinearGradient from 'react-native-linear-gradient';
 
-const { width, height } = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 interface HeaderBudgetAndTransactionProps {
   name: string;
   description: string;
   icon: string;
   categoryId: string;
+  budgetId: string; // Añadir el `budgetId` aquí
 }
 
 const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
@@ -27,6 +29,7 @@ const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
   description,
   icon,
   categoryId,
+  budgetId,
 }) => {
   const {
     isVisible: isBudgetVisible,
@@ -37,10 +40,14 @@ const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
     isVisible: isTransactionVisible,
     openModal: openTransactionModal,
     closeModal: closeTransactionModal,
-  } = useTransaction();
+  } = useTransaction(budgetId);
 
   return (
-    <View style={styles.content}>
+    <LinearGradient
+      colors={['#1b4f72', '#512e5f']}
+      start={{x: 1.5, y: 1}}
+      end={{x: 0, y: 1}}
+      style={styles.content}>
       <View style={styles.iconButtonsContainer}>
         <TouchableOpacity onPress={openBudgetModal} style={styles.iconButton}>
           <Feather name="dollar-sign" size={24} color="#fff" />
@@ -52,7 +59,7 @@ const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
         </TouchableOpacity>
       </View>
 
-      <Image source={{ uri: icon }} style={styles.icon} />
+      <Image source={{uri: icon}} style={styles.icon} />
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.description}>{description}</Text>
 
@@ -64,8 +71,9 @@ const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
       <ModalComponentTransactions
         isVisible={isTransactionVisible}
         closeModal={closeTransactionModal}
+        budgetId={budgetId}
       />
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -73,11 +81,15 @@ const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
     padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     width: width * 1,
     position: 'relative',
+    shadowColor: '#ffff',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 7,
   },
   iconButtonsContainer: {
     position: 'absolute',
@@ -89,7 +101,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   iconButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba( 133, 193, 233,0.4)',
     borderRadius: 20,
     padding: 10,
   },

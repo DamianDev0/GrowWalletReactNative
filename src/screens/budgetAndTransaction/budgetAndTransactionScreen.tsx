@@ -17,23 +17,28 @@ const BudgetAndTransactionScreen = () => {
   const route = useRoute<BudgetAndTransactionRouteProp>();
   const {name, description, icon, id} = route.params;
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
+    id,
   );
 
   return (
     <LinearGradient
       colors={['#000000', '#6a1b9a', '#000000']}
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
+      start={{x: 2, y: 0}}
+      end={{x: 0, y: 5}}
       style={styles.container}>
       <HeaderBudgetAndTransaction
         name={name}
         description={description}
         icon={icon}
         categoryId={id}
+        budgetId={selectedCategoryId || ''}
       />
       <View style={styles.cardContainer}>
-        <BudgetCard categoryId={id} onBudgetIdChange={setSelectedCategoryId} />
+        <BudgetCard
+          categoryId={id}
+          nameCategory={name}
+          onBudgetIdChange={setSelectedCategoryId}
+        />
       </View>
       {selectedCategoryId && (
         <View style={styles.chartContainer}>
@@ -50,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardContainer: {
-    marginTop: 20,
+    marginTop: 15,
     alignItems: 'center',
   },
   chartContainer: {

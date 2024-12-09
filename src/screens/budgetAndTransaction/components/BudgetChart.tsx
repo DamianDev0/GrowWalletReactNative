@@ -16,14 +16,10 @@ interface BudgetChartProps {
 const {width, height} = Dimensions.get('window');
 
 const BudgetChart: React.FC<BudgetChartProps> = ({budgetId}) => {
-  const {budgetStats, loading, error} = useBudgetStats(budgetId);
+  const {budgetStats, loading} = useBudgetStats(budgetId);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
-  }
-
-  if (error) {
-    return <Text style={styles.errorText}>Error: {error}</Text>;
+    return <ActivityIndicator size="large" color="#FFFF" />;
   }
 
   if (!budgetStats) {
@@ -35,10 +31,10 @@ const BudgetChart: React.FC<BudgetChartProps> = ({budgetId}) => {
     datasets: [
       {
         data: [
-          budgetStats.totalAmountSpent,
-          budgetStats.remainingBudgetAmount,
-          budgetStats.dailySpendingRate,
-          budgetStats.averageDailySpending,
+          Math.max(0, budgetStats.totalAmountSpent),
+          Math.max(0, budgetStats.remainingBudgetAmount),
+          Math.max(0, budgetStats.dailySpendingRate),
+          Math.max(0, budgetStats.averageDailySpending),
         ],
       },
     ],
@@ -46,6 +42,13 @@ const BudgetChart: React.FC<BudgetChartProps> = ({budgetId}) => {
 
   return (
     <View style={styles.container}>
+      {budgetStats.warningMessage && (
+        <View style={styles.warningContainer}>
+          <Text style={styles.warningMessage}>
+            {budgetStats.warningMessage}
+          </Text>
+        </View>
+      )}
       <BarChart
         data={data}
         width={width * 0.9}
@@ -59,9 +62,9 @@ const BudgetChart: React.FC<BudgetChartProps> = ({budgetId}) => {
           backgroundGradientTo: 'rgba(255,255,255,0.01)',
           backgroundGradientFromOpacity: 0.0,
           backgroundGradientToOpacity: 0.0,
-          fillShadowGradient: '#5dade2',
-          fillShadowGradientOpacity: 0.7,
-          decimalPlaces: 2,
+          fillShadowGradient: '#85c1e9',
+          fillShadowGradientOpacity: 0.9,
+          decimalPlaces: 0,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: () => 'white',
           style: {
@@ -88,9 +91,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
-  errorText: {
-    color: 'red',
-    fontSize: 16,
+  warningContainer: {
+    alignItems: 'flex-end',
+    marginBottom: 10,
+    maxWidth: '100%',
+    marginTop: 10,
+  },
+  warningText: {
+    color: 'orange',
+    fontSize: 12,
+  },
+  warningMessage: {
+    color: 'orange',
+    fontSize: 10,
   },
   noDataText: {
     color: 'gray',

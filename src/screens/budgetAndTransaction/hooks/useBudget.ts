@@ -3,12 +3,14 @@ import budgetService from '../../../services/budgetService';
 import {ApiError} from '../../../utils/errorHandler';
 import {useAuth} from '../../../context/useAuthContext';
 import Toast from 'react-native-toast-message';
+import useNavigation from '../../../hook/useNavigation';
 
 const useBudget = (categoryId: string) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [amount, setAmount] = useState<string>('');
   const {token} = useAuth();
+  const navigation = useNavigation();
 
   const openModal = () => {
     setIsVisible(true);
@@ -58,7 +60,7 @@ const useBudget = (categoryId: string) => {
           text2: 'Budget created successfully',
           position: 'bottom',
         });
-        closeModal();
+        navigation.goBack();
       }
     } catch (error: any) {
       const errorMessage =

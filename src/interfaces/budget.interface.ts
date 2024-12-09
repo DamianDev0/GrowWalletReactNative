@@ -21,4 +21,5 @@ export interface BudgetStatsData {
   dailySpendingRate: number;
   averageDailySpending: number;
   transactionDays: string[];
+  warningMessage: string;
 }
