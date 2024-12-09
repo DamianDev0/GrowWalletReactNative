@@ -1,7 +1,7 @@
 import Toast from 'react-native-toast-message';
 
 interface CustomToastProps {
-  type: 'success' | 'error' | 'info';
+  type: 'success' | 'error' | 'info' | 'warning' ;
   text1: string;
   text2?: string;
   position?: 'top' | 'bottom';

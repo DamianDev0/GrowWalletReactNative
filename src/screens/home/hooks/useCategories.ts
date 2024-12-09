@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import categoryService from '../../../services/category';
-import { Category } from '../../../interfaces/category.interface';
-import { ApiError } from '../../../utils/errorHandler';
+import {Category} from '../../../interfaces/category.interface';
+import {ApiError} from '../../../utils/errorHandler';
 
 const useCategories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -15,11 +15,11 @@ const useCategories = () => {
         if (Array.isArray(result) && result.length > 0) {
           setCategories(result);
         } else {
-          setError({ message: 'No categories found', statusCode: 404 });
+          setError({message: 'No categories found', statusCode: 404});
         }
       } catch (err) {
         console.error('Error fetching categories:', err);
-        setError({ message: 'Failed to fetch categories', statusCode: 500 });
+        setError({message: 'Failed to fetch categories', statusCode: 500});
       } finally {
         setLoading(false);
       }
@@ -28,7 +28,7 @@ const useCategories = () => {
     fetchCategories();
   }, []);
 
-  return { categories, error, loading };
+  return {categories, error, loading};
 };
 
 export default useCategories;

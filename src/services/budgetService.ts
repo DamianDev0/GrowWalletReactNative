@@ -102,6 +102,7 @@ const budgetService = {
       return response.data.data;
     } catch (error) {
       const apiError = handleApiError(error);
+
       return apiError;
     }
   },

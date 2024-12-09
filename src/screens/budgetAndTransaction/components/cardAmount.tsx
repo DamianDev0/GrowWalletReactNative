@@ -14,14 +14,16 @@ const {width, height} = Dimensions.get('screen');
 
 interface BudgetCardProps {
   categoryId: string;
+  nameCategory: string
   onBudgetIdChange: (id: string | null) => void;
 }
 
 const BudgetCard: React.FC<BudgetCardProps> = ({
   categoryId,
   onBudgetIdChange,
+  nameCategory,
 }) => {
-  const {budget, loading} = useBudgetByCategory(categoryId);
+  const {budget, loading} = useBudgetByCategory(categoryId, nameCategory);
 
   useEffect(() => {
     if (budget) {

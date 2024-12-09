@@ -17,7 +17,7 @@ const BudgetAndTransactionScreen = () => {
   const route = useRoute<BudgetAndTransactionRouteProp>();
   const {name, description, icon, id} = route.params;
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
+    id,
   );
 
   return (
@@ -31,9 +31,14 @@ const BudgetAndTransactionScreen = () => {
         description={description}
         icon={icon}
         categoryId={id}
+        budgetId={selectedCategoryId || ''}
       />
       <View style={styles.cardContainer}>
-        <BudgetCard categoryId={id} onBudgetIdChange={setSelectedCategoryId} />
+        <BudgetCard
+          categoryId={id}
+          nameCategory={name}
+          onBudgetIdChange={setSelectedCategoryId}
+        />
       </View>
       {selectedCategoryId && (
         <View style={styles.chartContainer}>
