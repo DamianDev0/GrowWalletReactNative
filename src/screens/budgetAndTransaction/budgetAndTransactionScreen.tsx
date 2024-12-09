@@ -23,8 +23,8 @@ const BudgetAndTransactionScreen = () => {
   return (
     <LinearGradient
       colors={['#000000', '#6a1b9a', '#000000']}
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
+      start={{x: 2, y: 0}}
+      end={{x: 0, y: 5}}
       style={styles.container}>
       <HeaderBudgetAndTransaction
         name={name}
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardContainer: {
-    marginTop: 20,
+    marginTop: 15,
     alignItems: 'center',
   },
   chartContainer: {

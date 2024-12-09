@@ -19,7 +19,7 @@ const BudgetChart: React.FC<BudgetChartProps> = ({budgetId}) => {
   const {budgetStats, loading, error} = useBudgetStats(budgetId);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator size="large" color="#FFFF" />;
   }
 
   if (error) {
@@ -59,9 +59,9 @@ const BudgetChart: React.FC<BudgetChartProps> = ({budgetId}) => {
           backgroundGradientTo: 'rgba(255,255,255,0.01)',
           backgroundGradientFromOpacity: 0.0,
           backgroundGradientToOpacity: 0.0,
-          fillShadowGradient: '#5dade2',
-          fillShadowGradientOpacity: 0.7,
-          decimalPlaces: 2,
+          fillShadowGradient: '#85c1e9',
+          fillShadowGradientOpacity: 0.9,
+          decimalPlaces: 0,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: () => 'white',
           style: {

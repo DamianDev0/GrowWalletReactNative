@@ -12,6 +12,7 @@ import useBudget from '../hooks/useBudget';
 import ModalComponentBudget from './ModalComponentBudget';
 import ModalComponentTransactions from './ModalComponentTransactions';
 import useTransaction from '../hooks/useTransactions';
+import LinearGradient from 'react-native-linear-gradient';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -40,14 +41,20 @@ const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
   } = useTransaction();
 
   return (
-    <View style={styles.content}>
+    <LinearGradient
+      colors={['#1b4f72', '#512e5f']}
+      start={{ x: 1.5, y: 1 }}
+      end={{ x: 0, y: 1 }}
+      style={styles.content}
+    >
       <View style={styles.iconButtonsContainer}>
         <TouchableOpacity onPress={openBudgetModal} style={styles.iconButton}>
           <Feather name="dollar-sign" size={24} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={openTransactionModal}
-          style={styles.iconButton}>
+          style={styles.iconButton}
+        >
           <Feather name="activity" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -65,7 +72,7 @@ const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
         isVisible={isTransactionVisible}
         closeModal={closeTransactionModal}
       />
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -73,11 +80,15 @@ const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
     padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     width: width * 1,
     position: 'relative',
+    shadowColor: '#ffff',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 7,
   },
   iconButtonsContainer: {
     position: 'absolute',
@@ -89,7 +100,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   iconButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba( 133, 193, 233,0.4)',
     borderRadius: 20,
     padding: 10,
   },
