@@ -13,7 +13,7 @@ const Transactions = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [sheetIndex, setSheetIndex] = useState<number>(2);
 
-  const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
+  const snapPoints = useMemo(() => ['25%', '50%', '90%'], []); // Ajustamos el snapPoint a 90% para que ocupe más
 
   const handleSheetChanges = useCallback((index: number) => {
     setSheetIndex(index);
@@ -69,7 +69,7 @@ const Transactions = () => {
       <Text style={styles.titleTransaction}>Transactions</Text>
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={snapPoints}
+        snapPoints={snapPoints}  // Este valor ahora es más grande
         onChange={handleSheetChanges}
         backgroundStyle={styles.bottomSheetBackground}
         index={2}
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bottomSheetContainer: {
-    flexGrow: 1.4,
+    flexGrow: 1.6,
     padding: 16,
     backgroundColor: 'transparent',
   },

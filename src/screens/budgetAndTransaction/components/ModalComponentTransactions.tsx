@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, Dimensions } from 'react-native';
 import GenericModal from '../../../components/modal.component';
 import InputGeneric from '../../../components/genericInput.component';
 import GenericButton from '../../../components/genericButton.component';
-import  useTransaction  from '../hooks/useTransactions';
+import useTransaction from '../hooks/useTransactions';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -18,7 +18,7 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
   closeModal,
   budgetId,
 }) => {
-  const { formData, setFormData, handleSave } = useTransaction(budgetId);
+  const { formData, handleChangeInput, handleSave } = useTransaction(budgetId);
 
   return (
     <GenericModal
@@ -36,30 +36,30 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
           icon="wallet"
           placeholder="Amount"
           backgroundColor="rgba(0, 0, 0, 0.3)"
-          keyboardType='decimal-pad'
+          keyboardType="decimal-pad"
           value={formData.amount}
-          onChangeText={(text) => setFormData({ ...formData, amount: text })}
+          onChangeText={(text) => handleChangeInput('amount', text)}
         />
         <InputGeneric
           icon="filetext1"
           placeholder="Description"
           backgroundColor="rgba(0, 0, 0, 0.3)"
           value={formData.description}
-          onChangeText={(text) => setFormData({ ...formData, description: text })}
+          onChangeText={(text) => handleChangeInput('description', text)}
         />
         <InputGeneric
           icon="shoppingcart"
           placeholder="Store"
           backgroundColor="rgba(0, 0, 0, 0.3)"
           value={formData.store}
-          onChangeText={(text) => setFormData({ ...formData, store: text })}
+          onChangeText={(text) => handleChangeInput('store', text)}
         />
         <InputGeneric
           icon="user"
           placeholder="Name"
           backgroundColor="rgba(0, 0, 0, 0.3)"
           value={formData.name}
-          onChangeText={(text) => setFormData({ ...formData, name: text })}
+          onChangeText={(text) => handleChangeInput('name', text)}
         />
       </View>
       <View style={styles.buttonsModal}>
@@ -84,7 +84,7 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
 
 const styles = StyleSheet.create({
   modalImage: {
-    width: width * 1,
+    width: width,
     height: height * 0.41,
     resizeMode: 'contain',
     marginBottom: 20,

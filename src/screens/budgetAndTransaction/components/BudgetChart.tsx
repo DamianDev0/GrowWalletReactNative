@@ -49,44 +49,51 @@ const BudgetChart: React.FC<BudgetChartProps> = ({budgetId}) => {
           </Text>
         </View>
       )}
-      <BarChart
-        data={data}
-        width={width * 0.9}
-        height={height * 0.4}
-        showBarTops={true}
-        yAxisLabel="$"
-        yAxisSuffix=""
-        chartConfig={{
-          backgroundColor: '#000',
-          backgroundGradientFrom: 'rgba(255,255,255,0.01)',
-          backgroundGradientTo: 'rgba(255,255,255,0.01)',
-          backgroundGradientFromOpacity: 0.0,
-          backgroundGradientToOpacity: 0.0,
-          fillShadowGradient: '#85c1e9',
-          fillShadowGradientOpacity: 0.9,
-          decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: () => 'white',
-          style: {
-            borderRadius: 16,
-          },
-          propsForLabels: {
-            fill: 'white',
-          },
-          propsForBackgroundLines: {
-            stroke: 'transparent',
-          },
-        }}
-        verticalLabelRotation={0}
-        fromZero={true}
-      />
+      <View style={styles.chartContainer}>
+        <BarChart
+          data={data}
+          width={width * 0.9}
+          height={height * 0.39}
+          showBarTops={true}
+          yAxisLabel="$"
+          yAxisSuffix=""
+          chartConfig={{
+            backgroundColor: '#000',
+            backgroundGradientFrom: 'rgba(255,255,255,0.01)',
+            backgroundGradientTo: 'rgba(255,255,255,0.01)',
+            backgroundGradientFromOpacity: 0.0,
+            backgroundGradientToOpacity: 0.0,
+            fillShadowGradient: '#85c1e9',
+            fillShadowGradientOpacity: 0.9,
+            decimalPlaces: 0,
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: () => 'white',
+            style: {
+              borderRadius: 16,
+            },
+            propsForLabels: {
+              fill: 'white',
+            },
+            propsForBackgroundLines: {
+              stroke: 'transparent',
+            },
+          }}
+          verticalLabelRotation={0}
+          fromZero={true}
+        />
+        <View style={styles.daysRemainingContainer}>
+          <Text style={styles.daysRemainingText}>
+            {budgetStats.daysRemaining}
+          </Text>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.6,
+    flex: 0.58,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
@@ -94,12 +101,8 @@ const styles = StyleSheet.create({
   warningContainer: {
     alignItems: 'flex-end',
     marginBottom: 10,
-    maxWidth: '100%',
+    maxWidth: width,
     marginTop: 10,
-  },
-  warningText: {
-    color: 'orange',
-    fontSize: 12,
   },
   warningMessage: {
     color: 'orange',
@@ -108,6 +111,26 @@ const styles = StyleSheet.create({
   noDataText: {
     color: 'gray',
     fontSize: 16,
+  },
+  chartContainer: {
+    position: 'relative',
+    width: width,
+    alignItems: 'center',
+  },
+  daysRemainingContainer: {
+    position: 'absolute',
+    top: -100,
+    left: width * 0.75,
+    width: 70,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  daysRemainingText: {
+    color: 'white',
+    fontSize: 25,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 });
 

@@ -99,6 +99,8 @@ const budgetService = {
         throw new Error('Unexpected array response');
       }
 
+      console.log('stats data', response.data);
+
       return response.data.data;
     } catch (error) {
       const apiError = handleApiError(error);
