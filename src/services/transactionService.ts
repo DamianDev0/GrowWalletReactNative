@@ -5,7 +5,7 @@ import {
   TransactionCreateResponse,
   DataItem,
 } from '../interfaces/transaction.interface';
-import { ApiError, handleApiError } from '../utils/errorHandler';
+import {ApiError, handleApiError} from '../utils/errorHandler';
 import apiClient from '../api/apiClient';
 
 const transactionService = {
@@ -21,8 +21,7 @@ const transactionService = {
       );
       return response.data.data;
     } catch (error) {
-      const apiError = handleApiError(error);
-      return apiError;
+      return handleApiError(error);
     }
   },
 
@@ -31,25 +30,21 @@ const transactionService = {
     payload: CreateTransactionPayload,
   ): Promise<TransactionCreateResponse | ApiError> => {
     try {
-      const response = await apiClient.post<ApiResponse<TransactionCreateResponse>>(
-        '/transaction',
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
+      const response = await apiClient.post<
+        ApiResponse<TransactionCreateResponse>
+      >('/transaction', payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      if (response.data.code === 201) {
-        return response.data.data[0];  // Devuelve el primer elemento del arreglo
-      } else {
-        const apiError: ApiError = {
-          statusCode: response.data.code || 500,
-          message: response.data.message || 'Internal Server Error',
-          statusCode: response.data.code || 0,
-        };
-        return apiError;
+      if (Array.isArray(response.data.data)) {
+        throw new Error('Unexpected array response');
       }
+
+      return response.data.data;
     } catch (error) {
-      const apiError = handleApiError(error);
-      return apiError;
+      return handleApiError(error);
     }
   },
 };

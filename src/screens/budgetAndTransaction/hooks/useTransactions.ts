@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import transactionService from '../../../services/transactionService';
-import { CustomToast } from '../../../components/toastMessage.component';
-import { handleChangeInput } from '../../../utils/handleChangeInput';
-import { useAuth } from '../../../context/useAuthContext';
+import {CustomToast} from '../../../components/toastMessage.component';
+import {useAuth} from '../../../context/useAuthContext';
+import useNavigation from '../../../hook/useNavigation';
 
 const useTransaction = (budgetId: string) => {
   const [isVisible, setIsVisible] = useState(false);
-  const { token } = useAuth();
+  const {token} = useAuth();
+  const navigation = useNavigation();
   const [formData, setFormData] = useState({
     amount: '',
     description: '',
@@ -15,41 +16,48 @@ const useTransaction = (budgetId: string) => {
   });
 
   const openModal = () => setIsVisible(true);
-  const closeModal = () => setIsVisible(false);
+  const closeModal = () => {
+    setIsVisible(false);
+    setFormData({amount: '', description: '', store: '', name: ''});
+  };
+
+  const handleChangeInput = (field: string, value: string) => {
+    setFormData(prev => ({...prev, [field]: value}));
+  };
 
   const handleSave = async () => {
+    if (!token) {
+      return CustomToast({
+        type: 'error',
+        text1: 'Authentication Error',
+        text2: 'Token is not available',
+      });
+    }
+
     const payload = {
       ...formData,
       amount: Number(formData.amount),
       budgetId,
     };
-    if (!token) {
-      CustomToast({
-        type: 'error',
-        text1: 'Authentication Error',
-        text2: 'Token is not available',
-      });
-      return;
-    }
 
     try {
       const result = await transactionService.createTransaction(token, payload);
 
-      if (typeof result === 'object' && result !== null && 'id' in result) {
-        // Si la respuesta tiene un id, significa que la transacción se creó correctamente.
+      if ('id' in result) {
         CustomToast({
           type: 'success',
           text1: 'Transaction Created',
           text2: 'The transaction was created successfully.',
         });
+        navigation.goBack();
         closeModal();
-      } else if (typeof result === 'object' && result !== null && 'message' in result) {
+      } else if ('message' in result) {
         CustomToast({
           type: 'error',
           text1: 'Error',
-          text2: result.message || 'There was an error creating the transaction.',
+          text2:
+            result.message || 'There was an error creating the transaction.',
         });
-        console.error(result);
       }
     } catch (error) {
       CustomToast({
@@ -57,7 +65,6 @@ const useTransaction = (budgetId: string) => {
         text1: 'Unexpected Error',
         text2: 'An unexpected error occurred.',
       });
-      console.error(error);
     }
   };
 
@@ -68,7 +75,6 @@ const useTransaction = (budgetId: string) => {
     handleChangeInput,
     handleSave,
     formData,
-    setFormData,
   };
 };
 
