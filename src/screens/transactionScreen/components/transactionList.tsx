@@ -4,30 +4,74 @@ import {
   Text,
   StyleSheet,
   Image,
-  FlatList,
+  SectionList,
   Dimensions,
 } from 'react-native';
-import useTransactions from '../hooks/useTransaction';
-import { DataItem } from '../../../interfaces/transaction.interface';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {useGroupedTransactions} from '../hooks/useGroupedTransactions';
+import {DataItem} from '../../../interfaces/transaction.interface';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 
-const { width, height } = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
-const TransactionsList = () => {
-  const { transactions, loading, error } = useTransactions();
+const formatCurrency = (amount: string, currency: string) => {
+  const numericAmount = parseFloat(amount);
+  return numericAmount.toLocaleString('es-CO', {
+    style: 'currency',
+    currency: currency,
+  });
+};
 
-  const renderItem = ({ item }: { item: DataItem }) => (
-    <View style={styles.item}>
-      <View style={styles.containerCard}>
-        <Image source={{ uri: item.category.icon }} style={styles.icon} />
-        <View style={styles.descriptionAndDate}>
-          <Text style={styles.textTitle}>{item.name}</Text>
-          <Text style={styles.textDescription}>{item.description}</Text>
-        </View>
+const TransactionsList: React.FC = () => {
+  const {sections, loading, error} = useGroupedTransactions();
+
+  const renderItem = ({item}: {item: DataItem}) => {
+    const transactionDate = new Date(item.date);
+    const dayOfWeek = new Intl.DateTimeFormat('es-CO', {
+      weekday: 'long',
+    }).format(transactionDate);
+
+    const currency = item.wallet?.currency || 'COP';
+
+    return (
+      <LinearGradient
+        style={styles.item}
+        colors={['#1b4f72', '#4a235a']}
+        start={{x: 1, y: 2}}
+        end={{x: 0, y: 1}}>
         <View>
-          <Text style={styles.textAmount}>${item.amount}</Text>
+          <View style={styles.containerCard}>
+            <View>
+              <Image source={{uri: item.category.icon}} style={styles.icon} />
+            </View>
+            <View style={styles.details}>
+              <Text style={styles.textTitle}>{item.name}</Text>
+              <Text
+                style={styles.textDescription}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {item.description}
+              </Text>
+              <Text style={styles.textDate}>{dayOfWeek}</Text>
+            </View>
+            <View style={styles.amountContainer}>
+              <Text style={styles.textAmount}>
+                {formatCurrency(item.amount, currency)}
+              </Text>
+            </View>
+          </View>
         </View>
-      </View>
+      </LinearGradient>
+    );
+  };
+
+  const renderSectionHeader = ({
+    section: {title},
+  }: {
+    section: {title: string};
+  }) => (
+    <View style={styles.sectionHeader}>
+      <Text style={styles.sectionHeaderText}>{title}</Text>
     </View>
   );
 
@@ -38,7 +82,7 @@ const TransactionsList = () => {
   if (error) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>Error: {error.message}</Text>
+        <Text style={styles.emptyText}>Not transaction available</Text>
         <Image
           source={require('../../../assets/img/Saly-45.png')}
           style={styles.emptyImage}
@@ -47,7 +91,7 @@ const TransactionsList = () => {
     );
   }
 
-  if (!transactions.length) {
+  if (!sections.length) {
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>No transactions available.</Text>
@@ -62,12 +106,13 @@ const TransactionsList = () => {
   return (
     <GestureHandlerRootView style={styles.container}>
       <Text style={styles.titleTransaction}>Transactions</Text>
-      <FlatList
-        data={transactions}
+      <SectionList
+        sections={sections}
         keyExtractor={item => item.id}
         renderItem={renderItem}
-        numColumns={2}
+        renderSectionHeader={renderSectionHeader}
         contentContainerStyle={styles.listContainer}
+        style={styles.sectionList}
       />
     </GestureHandlerRootView>
   );
@@ -77,56 +122,70 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     gap: 20,
+    alignItems: 'center',
   },
   listContainer: {
     backgroundColor: 'transparent',
+    alignItems: 'center',
+    paddingBottom: 80,
   },
   item: {
-    flex: 1,
     margin: 8,
     padding: 16,
-    backgroundColor: 'rgba(229, 155, 233, 0.1)',
     borderRadius: 10,
-    height: height * 0.2,
+    height: height * 0.13,
     justifyContent: 'center',
     width: width * 0.9,
   },
   containerCard: {
-    flexDirection: 'column',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    padding: 10,
+    gap: 20,
   },
-  descriptionAndDate: {
+  details: {
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
+    justifyContent: 'space-around',
+    flex: 1,
+    gap: 5,
   },
   textTitle: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 4,
     color: '#fff',
-    textAlign: 'center',
+    textAlign: 'left',
+    textTransform: 'capitalize',
   },
   textDescription: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#fff',
-    textAlign: 'center',
+    textAlign: 'left',
+    marginBottom: 4,
+  },
+  textDate: {
+    fontSize: 10,
+    color: '#ccc',
+    textAlign: 'left',
     marginBottom: 4,
   },
   textAmount: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
-    textAlign: 'center',
+    textAlign: 'right',
   },
   icon: {
-    width: 55,
-    height: 55,
+    width: width * 0.18,
+    height: height * 0.1,
     resizeMode: 'contain',
-    marginBottom: 8,
+  },
+  amountContainer: {
+    marginLeft: 'auto',
+  },
+  sectionList: {
+    paddingBottom: 80,
   },
   loading: {
     fontSize: 18,
@@ -157,6 +216,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     paddingHorizontal: 20,
+  },
+  sectionHeader: {
+    padding: 10,
+    alignItems: 'baseline',
+    width: width,
+    paddingHorizontal: 30,
+  },
+  sectionHeaderText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'left',
   },
 });
 
