@@ -10,13 +10,19 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {useAuth} from '../../../context/useAuthContext';
-import useWalletBalance from '../hooks/useHeader';
+import {WalletResponse} from '../../../interfaces/wallet.interface';
 
 const {width, height} = Dimensions.get('screen');
 
-const HeaderHome: React.FC = () => {
+interface HeaderHomeProps {
+  wallet: WalletResponse['data'] | null;
+  loading: boolean;
+  error: string | null;
+  handleLogout: () => void;
+}
+
+const HeaderHome: React.FC<HeaderHomeProps> = ({wallet, error, handleLogout}) => {
   const {name} = useAuth();
-  const {wallet, loading, error, handleLogout} = useWalletBalance();
 
   return (
     <View style={styles.container}>
@@ -26,8 +32,6 @@ const HeaderHome: React.FC = () => {
           <Icon name="logout" size={24} color="#FFF" />
         </TouchableOpacity>
       </View>
-
-      {loading && <Text style={styles.loadingText}>Loading balance...</Text>}
       {error && <Text style={styles.errorText}>{error}</Text>}
       {wallet && (
         <ImageBackground
@@ -53,8 +57,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 18,
     alignItems: 'center',
-    height: height * 0.31,
-    marginBottom: 10
+    height: height * 0.34,
+    marginBottom: 10,
   },
   headerRow: {
     flexDirection: 'row',

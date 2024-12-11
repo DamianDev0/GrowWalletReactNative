@@ -15,13 +15,14 @@ const TabBarIcon: React.FC<TabBarIconProps> = ({routeName}) => {
     case 'Chart':
       imageSource = require('../assets/img/chart-icon.png');
       break;
+    case 'Transaction':
+      imageSource = require('../assets/img/calculator-icon.png');
+      break;
     default:
       imageSource = require('../assets/img/pencil-icon.png');
   }
 
-  return (
-    <Image source={imageSource} style={[styles.icon]} />
-  );
+  return <Image source={imageSource} style={[styles.icon]} />;
 };
 
 const styles = StyleSheet.create({
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     resizeMode: 'contain',
+    marginBottom: 5,
   },
 });
 

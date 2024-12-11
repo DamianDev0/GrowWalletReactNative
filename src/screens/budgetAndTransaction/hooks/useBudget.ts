@@ -60,7 +60,10 @@ const useBudget = (categoryId: string) => {
           text2: 'Budget created successfully',
           position: 'bottom',
         });
-        navigation.goBack();
+
+        setTimeout(() => {
+          navigation.goBack();
+        }, 500);
       }
     } catch (error: any) {
       const errorMessage =

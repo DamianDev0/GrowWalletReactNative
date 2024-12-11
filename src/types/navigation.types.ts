@@ -10,4 +10,5 @@ export type NavigationParams = {
 export type NavigationTab = {
   HomeTab: undefined;
   Chart: undefined;
+  Transaction: undefined
 };

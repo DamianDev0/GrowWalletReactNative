@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: width * 0.5,
-    height: height * 0.08,
+    height: height * 0.09,
     shadowColor: '#E59BE9',
     position: 'relative',
   },
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   icon: {
-    width: 45,
-    height: 45,
+    width: 47,
+    height: 47,
     resizeMode: 'contain',
   },
 });
