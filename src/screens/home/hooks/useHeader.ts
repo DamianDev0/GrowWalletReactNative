@@ -38,7 +38,7 @@ const useWalletBalance = () => {
     logout();
   };
 
-  return {wallet, loading, error, handleLogout};
+  return {wallet, loading, error, handleLogout, fetchWalletBalance};
 };
 
 export default useWalletBalance;

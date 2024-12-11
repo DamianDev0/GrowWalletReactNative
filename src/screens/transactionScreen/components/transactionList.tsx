@@ -1,40 +1,28 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, FlatList } from 'react-native';
-import useTransactions from '../hooks/useTransactions';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  Dimensions,
+} from 'react-native';
+import useTransactions from '../hooks/useTransaction';
 import { DataItem } from '../../../interfaces/transaction.interface';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('screen');
 
-const Transactions = () => {
+const TransactionsList = () => {
   const { transactions, loading, error } = useTransactions();
-  const [filteredTransactions, setFilteredTransactions] = useState<DataItem[]>([]);
-
-  const filterByDate = useCallback(() => {
-    const today = new Date();
-    const filtered = transactions.filter(item => {
-      const createdAt = new Date(item.createdAt);
-      return createdAt.toDateString() === today.toDateString();
-    });
-    setFilteredTransactions(filtered);
-  }, [transactions]);
-
-  useEffect(() => {
-    if (transactions.length) {
-      filterByDate();
-    }
-  }, [transactions, filterByDate]);
 
   const renderItem = ({ item }: { item: DataItem }) => (
     <View style={styles.item}>
       <View style={styles.containerCard}>
         <Image source={{ uri: item.category.icon }} style={styles.icon} />
         <View style={styles.descriptionAndDate}>
-          <Text style={styles.textTitle} numberOfLines={1} ellipsizeMode="tail">
-            {item.name}
-          </Text>
-          <Text style={styles.textDate}>{item.description}</Text>
-          <Text style={styles.textDate}>{item.date}</Text>
+          <Text style={styles.textTitle}>{item.name}</Text>
+          <Text style={styles.textDescription}>{item.description}</Text>
         </View>
         <View>
           <Text style={styles.textAmount}>${item.amount}</Text>
@@ -47,12 +35,22 @@ const Transactions = () => {
     return <Text style={styles.loading}>Loading...</Text>;
   }
 
-  if (error || filteredTransactions.length === 0) {
+  if (error) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>
-          {error ? 'No transactions available.' : 'No transactions for today.'}
-        </Text>
+        <Text style={styles.emptyText}>Error: {error.message}</Text>
+        <Image
+          source={require('../../../assets/img/Saly-45.png')}
+          style={styles.emptyImage}
+        />
+      </View>
+    );
+  }
+
+  if (!transactions.length) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>No transactions available.</Text>
         <Image
           source={require('../../../assets/img/Saly-45.png')}
           style={styles.emptyImage}
@@ -65,9 +63,10 @@ const Transactions = () => {
     <GestureHandlerRootView style={styles.container}>
       <Text style={styles.titleTransaction}>Transactions</Text>
       <FlatList
-        data={filteredTransactions}
-        keyExtractor={(item) => item.id}
+        data={transactions}
+        keyExtractor={item => item.id}
         renderItem={renderItem}
+        numColumns={2}
         contentContainerStyle={styles.listContainer}
       />
     </GestureHandlerRootView>
@@ -77,51 +76,57 @@ const Transactions = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 20,
   },
   listContainer: {
-    padding: 16,
     backgroundColor: 'transparent',
   },
   item: {
-    marginBottom: 16,
+    flex: 1,
+    margin: 8,
     padding: 16,
     backgroundColor: 'rgba(229, 155, 233, 0.1)',
+    borderRadius: 10,
+    height: height * 0.2,
+    justifyContent: 'center',
+    width: width * 0.9,
   },
   containerCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     alignItems: 'center',
-    width: width * 0.8,
-    height: height * 0.07,
+    width: '100%',
     padding: 10,
   },
   descriptionAndDate: {
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
   },
   textTitle: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 4,
     color: '#fff',
-    width: width * 0.23,
+    textAlign: 'center',
   },
-  textDate: {
-    fontSize: 12,
-    color: '#aaa',
-    marginBottom: 8,
+  textDescription: {
+    fontSize: 14,
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 4,
   },
   textAmount: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
+    textAlign: 'center',
   },
   icon: {
     width: 55,
     height: 55,
     resizeMode: 'contain',
-    marginTop: 8,
-    marginHorizontal: -20,
+    marginBottom: 8,
   },
   loading: {
     fontSize: 18,
@@ -155,4 +160,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Transactions;
+export default TransactionsList;

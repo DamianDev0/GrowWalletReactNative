@@ -19,6 +19,7 @@ const transactionService = {
           },
         },
       );
+      console.log(response.data)
       return response.data.data;
     } catch (error) {
       return handleApiError(error);

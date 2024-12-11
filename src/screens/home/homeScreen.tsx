@@ -1,12 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import HeaderHome from './components/headerHome';
 import LinearGradient from 'react-native-linear-gradient';
 import Categories from './components/categories';
-import Transactions from './components/transaction';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import useWalletBalance from './hooks/useHeader';
+import {useNavigation} from '@react-navigation/native';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+  const {wallet, loading, error, fetchWalletBalance, handleLogout} =
+    useWalletBalance();
+
+  useEffect(() => {
+    const focusListener = navigation.addListener('focus', () => {
+      fetchWalletBalance();
+    });
+
+    return () => {
+      focusListener();
+    };
+  }, [navigation, fetchWalletBalance]);
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <LinearGradient
@@ -15,10 +30,14 @@ const HomeScreen = () => {
         end={{x: 0, y: 5}}
         style={styles.container}>
         <View>
-          <HeaderHome />
+          <HeaderHome
+            wallet={wallet}
+            loading={loading}
+            error={error}
+            handleLogout={handleLogout}
+          />
         </View>
         <Categories />
-        <Transactions />
       </LinearGradient>
     </GestureHandlerRootView>
   );
