@@ -21,7 +21,11 @@ interface HeaderHomeProps {
   handleLogout: () => void;
 }
 
-const HeaderHome: React.FC<HeaderHomeProps> = ({wallet, error, handleLogout}) => {
+const HeaderHome: React.FC<HeaderHomeProps> = ({
+  wallet,
+  error,
+  handleLogout,
+}) => {
   const {name} = useAuth();
 
   return (
