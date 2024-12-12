@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import GenericModal from '../../../components/modal.component';
+import BottomSheet from '../../../components/modal.component';
 import InputGeneric from '../../../components/genericInput.component';
 import GenericButton from '../../../components/genericButton.component';
 import GenericDropdown from '../../../components/GenericDropdown';
@@ -36,20 +36,18 @@ const ModalComponentBudget: React.FC<ModalComponentBudgetProps> = ({
   ];
 
   return (
-    <GenericModal
-      isVisible={isVisible}
-      onClose={closeModal}
-      animationIn="slideInUp"
-      animationOut="slideOutDown">
+    <BottomSheet isVisible={isVisible} onClose={closeModal}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         style={styles.container}>
-        <Image
-          source={require('../../../assets/img/Saly-38.png')}
-          style={styles.modalImage}
-        />
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          keyboardShouldPersistTaps="handled">
+          <Image
+            source={require('../../../assets/img/Saly-22.png')}
+            style={styles.modalImage}
+          />
           <View style={styles.inputsModal}>
             <InputGeneric
               icon="wallet"
@@ -57,6 +55,7 @@ const ModalComponentBudget: React.FC<ModalComponentBudgetProps> = ({
               backgroundColor="rgba(0, 0, 0, 0.3)"
               value={amount}
               onChangeText={setAmount}
+              keyboardType="decimal-pad"
             />
             <GenericDropdown
               data={dropdownData}
@@ -67,51 +66,49 @@ const ModalComponentBudget: React.FC<ModalComponentBudgetProps> = ({
           </View>
           <View style={styles.buttonsModal}>
             <GenericButton
-              onPress={closeModal}
-              title="Close"
-              backgroundColor="#000"
-              color="#FFFF"
-              width={165}
-            />
-            <GenericButton
               onPress={handleSave}
               title="Save"
               backgroundColor="#000"
               color="#FFFF"
-              width={165}
+              width={150}
+              height={45}
             />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </GenericModal>
+    </BottomSheet>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.9,
+    flex: 1,
     justifyContent: 'center',
+    overflow: 'hidden',
+    gap: width * 0.4,
   },
   modalImage: {
     width: width * 0.9,
-    height: height * 0.35,
+    height: height * 0.36,
     resizeMode: 'contain',
-    marginBottom: 20,
+
   },
   scrollContainer: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 20,
+    overflow: 'hidden',
+    gap: width * 0.09,
+  },
+  inputsModal: {
+    marginBottom: 10,
+    overflow: 'hidden',
   },
   buttonsModal: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
-    marginBottom: 20,
-    marginTop: 30,
-  },
-  inputsModal: {
-    gap: width * 0.01,
   },
 });
 
