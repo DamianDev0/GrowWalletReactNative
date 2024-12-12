@@ -26,11 +26,6 @@ const TransactionsList: React.FC = () => {
   const {sections, loading, error} = useGroupedTransactions();
 
   const renderItem = ({item}: {item: DataItem}) => {
-    const transactionDate = new Date(item.date);
-    const dayOfWeek = new Intl.DateTimeFormat('es-CO', {
-      weekday: 'long',
-    }).format(transactionDate);
-
     const currency = item.wallet?.currency || 'COP';
 
     return (
@@ -52,7 +47,7 @@ const TransactionsList: React.FC = () => {
                 ellipsizeMode="tail">
                 {item.description}
               </Text>
-              <Text style={styles.textDate}>{dayOfWeek}</Text>
+              <Text style={styles.textDate}>{item.category.name}</Text>
             </View>
             <View style={styles.amountContainer}>
               <Text style={styles.textAmount}>
@@ -169,6 +164,7 @@ const styles = StyleSheet.create({
     color: '#ccc',
     textAlign: 'left',
     marginBottom: 4,
+    textTransform: 'capitalize',
   },
   textAmount: {
     fontSize: 16,

@@ -29,21 +29,17 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
   const {formData, handleChangeInput, handleSave} = useTransaction(budgetId);
 
   return (
-    <GenericModal
-      isVisible={isVisible}
-      onClose={closeModal}
-      animationIn="slideInUp"
-      animationOut="slideOutDown">
+    <GenericModal isVisible={isVisible} onClose={closeModal}>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           keyboardShouldPersistTaps="handled">
           <View style={styles.imageContainer}>
             <Image
-              source={require('../../../assets/img/Saly-33.png')}
+              source={require('../../../assets/img/Saly-3.png')}
               style={styles.modalImage}
             />
           </View>
@@ -56,6 +52,7 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
               value={formData.amount}
               onChangeText={text => handleChangeInput('amount', text)}
               width={310}
+              height={45}
             />
             <InputGeneric
               icon="filetext1"
@@ -64,6 +61,7 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
               value={formData.description}
               onChangeText={text => handleChangeInput('description', text)}
               width={310}
+              height={45}
             />
             <InputGeneric
               icon="shoppingcart"
@@ -72,6 +70,7 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
               value={formData.store}
               onChangeText={text => handleChangeInput('store', text)}
               width={310}
+              height={45}
             />
             <InputGeneric
               icon="user"
@@ -80,22 +79,17 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
               value={formData.name}
               onChangeText={text => handleChangeInput('name', text)}
               width={310}
+              height={45}
             />
           </View>
           <View style={styles.buttonsModal}>
-            <GenericButton
-              onPress={closeModal}
-              title="Close"
-              backgroundColor="#000"
-              color="#FFFF"
-              width={165}
-            />
             <GenericButton
               onPress={handleSave}
               title="Save"
               backgroundColor="#000"
               color="#FFFF"
-              width={165}
+              width={155}
+              height={45}
             />
           </View>
         </ScrollView>
@@ -111,13 +105,13 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: height * 0.05,
+    justifyContent: 'flex-start',
   },
   modalImage: {
-    width: width * 1.3,
-    height: height * 0.35,
+    width: width * 1.4,
+    height: height * 0.34,
     resizeMode: 'contain',
+    marginBottom: 10,
   },
   inputsModal: {
     alignItems: 'center',
@@ -125,14 +119,15 @@ const styles = StyleSheet.create({
   },
   buttonsModal: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingHorizontal: 20,
-    marginBottom: 20,
+    marginTop: 5,
   },
   scrollContainer: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 20,
   },
 });
 

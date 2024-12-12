@@ -1,64 +1,37 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import Modal from 'react-native-modal';
+import LinearGradient from 'react-native-linear-gradient';
 
-type AnimationType =
-  | 'slideInUp'
-  | 'slideOutDown'
-  | 'bounce'
-  | 'flash'
-  | 'jello'
-  | 'pulse'
-  | 'rotate'
-  | 'rubberBand'
-  | 'shake'
-  | 'swing'
-  | 'tada'
-  | 'wobble'
-  | 'bounceIn'
-  | 'bounceInDown'
-  | 'bounceInUp'
-  | 'bounceOut'
-  | 'bounceOutDown'
-  | 'fadeIn'
-  | 'fadeInDown'
-  | 'fadeInUp'
-  | 'fadeOut'
-  | 'fadeOutDown'
-  | 'fadeOutUp'
-  | undefined;
+const {height} = Dimensions.get('screen');
 
-type GenericModalProps = {
+interface BottomSheetProps {
   isVisible: boolean;
   onClose: () => void;
   children?: React.ReactNode;
-  animationIn?: AnimationType;
-  animationOut?: AnimationType;
-};
+  backgroundColor?: string;
+}
 
-const GenericModal: React.FC<GenericModalProps> = ({
+const BottomSheet: React.FC<BottomSheetProps> = ({
   isVisible,
   onClose,
   children,
-  animationIn = 'slideInUp',
-  animationOut = 'slideOutDown',
+  backgroundColor = '#fff',
 }) => {
   return (
     <Modal
       isVisible={isVisible}
       onBackdropPress={onClose}
-      animationIn={animationIn}
-      animationOut={animationOut}
-      backdropOpacity={0.5}
+      onSwipeComplete={onClose}
+      swipeDirection="down"
       style={styles.modal}>
-      {/* LinearGradient envuelve el modal */}
       <LinearGradient
-        colors={['#000000', '#6a1b9a', '#000000']}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 1}}
-        style={styles.gradientContainer}>
-        <View style={styles.content}>{children}</View>
+          colors={['#1b4f72', '#4a235a']}
+          start={{x: 1, y: 1.2}}
+          end={{x: 0, y: 1}}
+        style={[styles.container, {backgroundColor}]}>
+        <View style={styles.dragIndicator} />
+        {children}
       </LinearGradient>
     </Modal>
   );
@@ -66,28 +39,26 @@ const GenericModal: React.FC<GenericModalProps> = ({
 
 const styles = StyleSheet.create({
   modal: {
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     margin: 0,
-  },
-  gradientContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    borderRadius: 10,
-    padding: 20,
     alignItems: 'center',
   },
-  content: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    borderRadius: 10,
+  container: {
+    height: height * 0.73,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     padding: 20,
     alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 5},
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
+    justifyContent: 'space-between',
+  },
+  dragIndicator: {
+    width: 40,
+    height: 5,
+    backgroundColor: '#ccc',
+    borderRadius: 2.5,
+    alignSelf: 'center',
+    marginBottom: 10,
   },
 });
 
-export default GenericModal;
+export default BottomSheet;
