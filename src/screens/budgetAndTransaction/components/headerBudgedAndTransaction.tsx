@@ -21,7 +21,7 @@ interface HeaderBudgetAndTransactionProps {
   description: string;
   icon: string;
   categoryId: string;
-  budgetId: string; // Añadir el `budgetId` aquí
+  budgetId: string;
 }
 
 const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({

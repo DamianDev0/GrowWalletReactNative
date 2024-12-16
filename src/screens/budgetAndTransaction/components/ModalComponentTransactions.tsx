@@ -6,7 +6,6 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
 } from 'react-native';
 import GenericModal from '../../../components/modal.component';
 import InputGeneric from '../../../components/genericInput.component';
@@ -29,14 +28,12 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
   const {formData, handleChangeInput, handleSave} = useTransaction(budgetId);
 
   return (
-    <GenericModal isVisible={isVisible} onClose={closeModal}>
+    <GenericModal isVisible={isVisible} onClose={closeModal} height={700}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          keyboardShouldPersistTaps="handled">
+        <View style={styles.content}>
           <View style={styles.imageContainer}>
             <Image
               source={require('../../../assets/img/Saly-3.png')}
@@ -45,41 +42,41 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
           </View>
           <View style={styles.inputsModal}>
             <InputGeneric
-              icon="wallet"
+              icon="trending-down-outline"
               placeholder="Amount"
               backgroundColor="rgba(0, 0, 0, 0.3)"
               keyboardType="decimal-pad"
               value={formData.amount}
               onChangeText={text => handleChangeInput('amount', text)}
-              width={310}
-              height={45}
+              width={330}
+              height={50}
             />
             <InputGeneric
-              icon="filetext1"
+              icon="document-text-outline"
               placeholder="Description"
               backgroundColor="rgba(0, 0, 0, 0.3)"
               value={formData.description}
               onChangeText={text => handleChangeInput('description', text)}
-              width={310}
-              height={45}
+              width={330}
+              height={50}
             />
             <InputGeneric
-              icon="shoppingcart"
+              icon="storefront-outline"
               placeholder="Store"
               backgroundColor="rgba(0, 0, 0, 0.3)"
               value={formData.store}
               onChangeText={text => handleChangeInput('store', text)}
-              width={310}
-              height={45}
+              width={330}
+              height={50}
             />
             <InputGeneric
-              icon="user"
+              icon="bag-check-outline"
               placeholder="Name"
               backgroundColor="rgba(0, 0, 0, 0.3)"
               value={formData.name}
               onChangeText={text => handleChangeInput('name', text)}
-              width={310}
-              height={45}
+              width={330}
+              height={50}
             />
           </View>
           <View style={styles.buttonsModal}>
@@ -88,11 +85,11 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
               title="Save"
               backgroundColor="#000"
               color="#FFFF"
-              width={155}
+              width={250}
               height={45}
             />
           </View>
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </GenericModal>
   );
@@ -103,31 +100,29 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'white',
   },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   imageContainer: {
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    marginBottom: 20,
   },
   modalImage: {
     width: width * 1.4,
     height: height * 0.34,
     resizeMode: 'contain',
-    marginBottom: 10,
   },
   inputsModal: {
     alignItems: 'center',
-    gap: width * 0.03,
+    gap: width * 0.04,
   },
   buttonsModal: {
     flexDirection: 'row',
     justifyContent: 'center',
     paddingHorizontal: 20,
-    marginTop: 5,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 20,
+    marginTop: 10,
   },
 });
 

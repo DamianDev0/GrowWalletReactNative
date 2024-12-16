@@ -1,6 +1,6 @@
 import React from 'react';
 import {TextInput, StyleSheet, TextInputProps, View} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 interface InputProps extends TextInputProps {
   placeholder: string;

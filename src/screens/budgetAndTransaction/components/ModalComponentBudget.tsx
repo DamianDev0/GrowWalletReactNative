@@ -4,7 +4,6 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  ScrollView,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -36,26 +35,25 @@ const ModalComponentBudget: React.FC<ModalComponentBudgetProps> = ({
   ];
 
   return (
-    <BottomSheet isVisible={isVisible} onClose={closeModal}>
+    <BottomSheet isVisible={isVisible} onClose={closeModal} height={600}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}
         style={styles.container}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          keyboardShouldPersistTaps="handled">
+        <View style={styles.content}>
           <Image
             source={require('../../../assets/img/Saly-22.png')}
             style={styles.modalImage}
           />
           <View style={styles.inputsModal}>
             <InputGeneric
-              icon="wallet"
+              icon="wallet-outline"
               placeholder="Budget"
               backgroundColor="rgba(0, 0, 0, 0.3)"
               value={amount}
               onChangeText={setAmount}
               keyboardType="decimal-pad"
+              height={50}
             />
             <GenericDropdown
               data={dropdownData}
@@ -70,11 +68,11 @@ const ModalComponentBudget: React.FC<ModalComponentBudgetProps> = ({
               title="Save"
               backgroundColor="#000"
               color="#FFFF"
-              width={150}
+              width={250}
               height={45}
             />
           </View>
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </BottomSheet>
   );
@@ -84,31 +82,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    overflow: 'hidden',
-    gap: width * 0.4,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    gap: 10,
   },
   modalImage: {
     width: width * 0.9,
     height: height * 0.36,
     resizeMode: 'contain',
-
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 20,
-    overflow: 'hidden',
-    gap: width * 0.09,
   },
   inputsModal: {
-    marginBottom: 10,
-    overflow: 'hidden',
+    width: width,
+    alignItems: 'center',
+    gap: 5,
   },
   buttonsModal: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
+    justifyContent: 'center',
+    marginTop: 20,
   },
 });
 
