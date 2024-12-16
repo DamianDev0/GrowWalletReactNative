@@ -63,7 +63,7 @@ const RegisterForm: React.FC = () => {
                 placeholder="Name"
                 value={formData.name}
                 onChangeText={value => handleChange('name', value)}
-                icon="user"
+                icon="person-outline"
                 width={width * 0.8}
                 backgroundColor="rgba(0, 0, 0, 0.3)"
               />
@@ -72,7 +72,7 @@ const RegisterForm: React.FC = () => {
                 value={formData.email}
                 onChangeText={value => handleChange('email', value)}
                 keyboardType="email-address"
-                icon="mail"
+                icon="mail-outline"
                 width={width * 0.8}
                 backgroundColor="rgba(0, 0, 0, 0.3)"
               />
@@ -81,7 +81,7 @@ const RegisterForm: React.FC = () => {
                 value={formData.password}
                 onChangeText={value => handleChange('password', value)}
                 secureTextEntry
-                icon="lock"
+                icon="lock-closed-outline"
                 width={width * 0.8}
                 backgroundColor="rgba(0, 0, 0, 0.3)"
               />

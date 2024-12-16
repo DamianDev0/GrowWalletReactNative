@@ -1,4 +1,4 @@
-import React, {} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,6 @@ import {
   Dimensions,
   ImageBackground,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {useAuth} from '../../../context/useAuthContext';
 import {WalletResponse} from '../../../interfaces/wallet.interface';
 import ModalUserCreateCategories from './modalUserCategories';
@@ -30,16 +29,29 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({
 }) => {
   const {name} = useAuth();
   const {openModal, closeModal, isVisible} = useCategoriesModal();
+
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
-        <Text style={styles.greeting}>Hello, {name}!</Text>
+        <View style={styles.greetingContainer}>
+          <Image
+            source={require('../../../assets/img/4.png')}
+            style={styles.profileImage}
+          />
+          <Text style={styles.greeting}>Hello, {name}!</Text>
+        </View>
         <View style={styles.headerButtons}>
           <TouchableOpacity style={styles.modalButton} onPress={openModal}>
-            <Icon name="plus" size={24} color="#FFF" />
+            <Image
+              source={require('../../../assets/img/addCategories.png')}
+              style={styles.buttonIcon}
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Icon name="logout" size={24} color="#FFF" />
+            <Image
+              source={require('../../../assets/img/logout.png')}
+              style={styles.buttonIcon}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -49,7 +61,10 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({
           source={require('../../../assets/img/3.png')}
           style={styles.card}
           imageStyle={styles.cardImage}>
-          <Text style={styles.cardLogo}>GrowWallet</Text>
+          <Image
+            style={styles.cardLogo}
+            source={require('../../../assets/img/title.png')}
+          />
           <Image
             source={require('../../../assets/img/chip.png')}
             style={styles.chip}
@@ -82,23 +97,38 @@ const styles = StyleSheet.create({
     width: width * 1,
     alignItems: 'center',
   },
+  greetingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: width * 0.03,
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 15,
+    marginRight: 10,
+  },
   greeting: {
     fontSize: 15,
     color: '#FFF',
     fontWeight: 'bold',
-    marginLeft: width * 0.03,
   },
   headerButtons: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: width * 0.22,
+    width: width * 0.27,
   },
   logoutButton: {
     marginRight: 10,
   },
   modalButton: {
     marginLeft: 10,
+  },
+  buttonIcon: {
+    width: 36,
+    height: 36,
+    resizeMode: 'contain',
   },
   card: {
     marginTop: 15,
@@ -141,12 +171,11 @@ const styles = StyleSheet.create({
     left: 20,
   },
   cardLogo: {
-    fontSize: 22,
-    color: '#FFF',
+    width: width * 0.45,
+    height: height * 0.19,
     position: 'absolute',
-    fontWeight: 'ultralight',
-    top: 20,
-    right: 20,
+    top: -60,
+    right: -20,
   },
   loadingText: {
     fontSize: 12,
