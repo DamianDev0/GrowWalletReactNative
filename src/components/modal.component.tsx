@@ -1,15 +1,15 @@
 import React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
-
-const {height} = Dimensions.get('screen');
 
 interface BottomSheetProps {
   isVisible: boolean;
   onClose: () => void;
   children?: React.ReactNode;
   backgroundColor?: string;
+  height?: number;
+  width?: number;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
@@ -17,7 +17,12 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   onClose,
   children,
   backgroundColor = '#fff',
+  height,
+  width,
 }) => {
+  const screenHeight = Dimensions.get('screen').height;
+  const screenWidth = Dimensions.get('screen').width;
+
   return (
     <Modal
       isVisible={isVisible}
@@ -26,10 +31,17 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       swipeDirection="down"
       style={styles.modal}>
       <LinearGradient
-          colors={['#1b4f72', '#4a235a']}
-          start={{x: 1, y: 1.2}}
-          end={{x: 0, y: 1}}
-        style={[styles.container, {backgroundColor}]}>
+        colors={['#1b4f72', '#4a235a']}
+        start={{ x: 1, y: 1.2 }}
+        end={{ x: 0, y: 1 }}
+        style={[
+          styles.container,
+          {
+            backgroundColor,
+            height: height || screenHeight * 0.73,
+            width: width || screenWidth,
+          },
+        ]}>
         <View style={styles.dragIndicator} />
         {children}
       </LinearGradient>
@@ -44,9 +56,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    height: height * 0.73,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
     padding: 20,
     alignItems: 'center',
     justifyContent: 'space-between',

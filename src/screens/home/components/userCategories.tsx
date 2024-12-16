@@ -10,14 +10,18 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-reanimated-carousel';
-import useCategoriesUser from '../hooks/useCategoriesUser';
-import {Category} from '../../../interfaces/category.interface';
+import { Category } from '../../../interfaces/category.interface';
 import useNavigation from '../../../hook/useNavigation';
 
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
-const CategoryUser = () => {
-  const {categories, loading, error} = useCategoriesUser();
+interface CategoryUserProps {
+  categories: Category[];
+  loading: boolean;
+  error: string | null;
+}
+
+const CategoryUser: React.FC<CategoryUserProps> = ({ categories, loading, error }) => {
   const navigation = useNavigation();
 
   const validCategories = categories.filter(item => item.id !== undefined);
@@ -33,17 +37,18 @@ const CategoryUser = () => {
     }
   };
 
-  const renderCarouselItem = ({item}: {item: Category}) => (
+  const renderCarouselItem = ({ item }: { item: Category }) => (
     <TouchableOpacity
       style={styles.carouselItem}
-      onPress={() => handleNavigation(item)}>
+      onPress={() => handleNavigation(item)}
+    >
       <LinearGradient
         colors={['#2b1557', '#154360']}
-        start={{x: 0, y: 0.5}}
-        end={{x: 2, y: 1}}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 2, y: 1 }}
         style={styles.gradientBackground}
       />
-      <Image source={{uri: item.icon}} style={styles.icon} />
+      <Image source={{ uri: item.icon }} style={styles.icon} />
       <Text style={styles.itemName}>{item.name}</Text>
     </TouchableOpacity>
   );
@@ -60,7 +65,7 @@ const CategoryUser = () => {
   if (error) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>{error.message}</Text>
+        <Text style={styles.errorText}>{error}</Text>
       </View>
     );
   }

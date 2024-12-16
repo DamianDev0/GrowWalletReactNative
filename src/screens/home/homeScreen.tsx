@@ -11,9 +11,19 @@ import useCategoriesUser from './hooks/useCategoriesUser';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const {wallet, loading, error, fetchWalletBalance, handleLogout} =
-    useWalletBalance();
-  const {fetchCategories} = useCategoriesUser();
+  const {
+    wallet,
+    loading: walletLoading,
+    error: walletError,
+    fetchWalletBalance,
+    handleLogout,
+  } = useWalletBalance();
+  const {
+    categories,
+    loading: categoriesLoading,
+    error: categoriesError,
+    fetchCategories,
+  } = useCategoriesUser();
 
   useEffect(() => {
     const focusListener = navigation.addListener('focus', () => {
@@ -36,13 +46,17 @@ const HomeScreen = () => {
         <View>
           <HeaderHome
             wallet={wallet}
-            loading={loading}
-            error={error}
+            loading={walletLoading}
+            error={walletError}
             handleLogout={handleLogout}
           />
         </View>
         <Categories />
-        <CategoryUser />
+        <CategoryUser
+          categories={categories}
+          loading={categoriesLoading}
+          error={categoriesError}
+        />
       </LinearGradient>
     </GestureHandlerRootView>
   );

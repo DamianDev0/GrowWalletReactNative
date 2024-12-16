@@ -1,12 +1,11 @@
 import {useEffect, useState, useCallback} from 'react';
 import {useAuth} from '../../../context/useAuthContext';
-import {ApiError} from '../../../utils/errorHandler';
 import {Category} from '../../../interfaces/category.interface';
 import categoryService from '../../../services/category';
 
 const useCategoriesUser = () => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [error, setError] = useState<ApiError | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const {token} = useAuth();
 
@@ -22,10 +21,10 @@ const useCategoriesUser = () => {
       if (Array.isArray(result)) {
         setCategories(result);
       } else {
-        setError(result);
+        setError(result.message || 'Failed to fetch categories');
       }
     } catch (error: any) {
-      setError(error);
+      setError(error.message || 'Failed to fetch categories');
     } finally {
       setLoading(false);
     }
