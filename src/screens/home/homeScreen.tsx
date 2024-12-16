@@ -6,21 +6,25 @@ import Categories from './components/categories';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import useWalletBalance from './hooks/useHeader';
 import {useNavigation} from '@react-navigation/native';
+import CategoryUser from './components/userCategories';
+import useCategoriesUser from './hooks/useCategoriesUser';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const {wallet, loading, error, fetchWalletBalance, handleLogout} =
     useWalletBalance();
+  const {fetchCategories} = useCategoriesUser();
 
   useEffect(() => {
     const focusListener = navigation.addListener('focus', () => {
       fetchWalletBalance();
+      fetchCategories();
     });
 
     return () => {
       focusListener();
     };
-  }, [navigation, fetchWalletBalance]);
+  }, [navigation, fetchWalletBalance, fetchCategories]);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
@@ -38,6 +42,7 @@ const HomeScreen = () => {
           />
         </View>
         <Categories />
+        <CategoryUser />
       </LinearGradient>
     </GestureHandlerRootView>
   );

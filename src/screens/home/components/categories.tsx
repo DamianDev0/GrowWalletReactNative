@@ -31,7 +31,7 @@ const Categories = () => {
   if (error) {
     return (
       <View style={styles.container}>
-        <Text style={styles.errorText}>Error: {error.message}</Text>
+        <Text style={styles.errorText}>{error.message}</Text>
       </View>
     );
   }
@@ -41,14 +41,14 @@ const Categories = () => {
       <Text style={styles.title}>Categories</Text>
       <FlatList
         data={categories}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id || ''}
         numColumns={3}
         renderItem={({item}) => (
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() =>
               navigation.navigate('BudgetAndTransactionScreen', {
-                id: item.id,
+                id: item.id ?? '',
                 name: item.name,
                 description: item.description,
                 icon: item.icon,
@@ -71,7 +71,7 @@ const Categories = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1.24,
     padding: 10,
   },
   title: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    width: width * 0.5,
+    width: width * 0.4,
     height: height * 0.09,
     shadowColor: '#E59BE9',
     position: 'relative',
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 12,
+    fontWeight: 'bold',
   },
   icon: {
     width: 47,
