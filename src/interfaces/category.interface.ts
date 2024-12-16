@@ -1,14 +1,14 @@
 export interface Category {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   icon: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-export interface ApiResponse {
+export interface ApiResponse<T> {
   code: number;
   message: string;
-  data: Category[];
+  data: T;
 }

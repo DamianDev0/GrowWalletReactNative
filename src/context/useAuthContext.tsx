@@ -8,8 +8,8 @@ import React, {
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import authService from '../services/authService';
-import { CustomToast } from '../components/toastMessage.component';
-import { handleApiError } from '../utils/errorHandler';
+import {CustomToast} from '../components/toastMessage.component';
+import {handleApiError} from '../utils/errorHandler';
 import useNavigation from '../hook/useNavigation';
 
 interface AuthContextProps {
@@ -34,7 +34,6 @@ interface AuthProviderProps {
 export const AuthContext = createContext<AuthContextProps | undefined>(
   undefined,
 );
-
 
 export const AuthProvider = ({children}: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
@@ -157,7 +156,9 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
       await AsyncStorage.setItem('token', token);
       await AsyncStorage.setItem('userId', userId);
       await AsyncStorage.setItem('name', name);
-      if (walletId) {await AsyncStorage.setItem('walletId', walletId);}
+      if (walletId) {
+        await AsyncStorage.setItem('walletId', walletId);
+      }
       await AsyncStorage.setItem('email', email);
       await AsyncStorage.setItem('password', password);
 
@@ -202,6 +203,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         type: 'info',
         text1: 'Logged out',
         text2: 'You have been logged out successfully.',
+        position: 'top',
       });
     } catch (error) {
       console.error('Error during logout:', error);

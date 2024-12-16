@@ -18,7 +18,6 @@ const useCategories = () => {
           setError({message: 'No categories found', statusCode: 404});
         }
       } catch (err) {
-        console.error('Error fetching categories:', err);
         setError({message: 'Failed to fetch categories', statusCode: 500});
       } finally {
         setLoading(false);
