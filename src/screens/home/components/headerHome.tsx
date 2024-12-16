@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {} from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,8 @@ import {
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {useAuth} from '../../../context/useAuthContext';
 import {WalletResponse} from '../../../interfaces/wallet.interface';
+import ModalUserCreateCategories from './modalUserCategories';
+import useCategoriesModal from '../hooks/useCategoriesModal';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -27,14 +29,19 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({
   handleLogout,
 }) => {
   const {name} = useAuth();
-
+  const {openModal, closeModal, isVisible} = useCategoriesModal();
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <Text style={styles.greeting}>Hello, {name}!</Text>
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Icon name="logout" size={24} color="#FFF" />
-        </TouchableOpacity>
+        <View style={styles.headerButtons}>
+          <TouchableOpacity style={styles.modalButton} onPress={openModal}>
+            <Icon name="plus" size={24} color="#FFF" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Icon name="logout" size={24} color="#FFF" />
+          </TouchableOpacity>
+        </View>
       </View>
       {error && <Text style={styles.errorText}>{error}</Text>}
       {wallet && (
@@ -53,6 +60,11 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({
           </Text>
         </ImageBackground>
       )}
+
+      <ModalUserCreateCategories
+        isVisible={isVisible}
+        closeModal={closeModal}
+      />
     </View>
   );
 };
@@ -76,9 +88,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: width * 0.03,
   },
-  logoutButton: {
+  headerButtons: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    width: width * 0.22,
+  },
+  logoutButton: {
+    marginRight: 10,
+  },
+  modalButton: {
+    marginLeft: 10,
   },
   card: {
     marginTop: 15,

@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, Dimensions, Text} from 'react-native';
+import {View, StyleSheet, Dimensions, Text, Image} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
-const {width} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 interface GenericDropdownProps {
-  data: {label: string; value: string}[];
+  data: {label?: string; value: string; iconUrl?: string}[];
   selectedValue: string | null;
   setSelectedValue: React.Dispatch<React.SetStateAction<string | null>>;
   placeholder?: string;
@@ -32,6 +32,9 @@ const GenericDropdown: React.FC<GenericDropdownProps> = ({
         iconColor="#fff"
         renderItem={item => (
           <View style={styles.dropdownItem}>
+            {item.iconUrl && (
+              <Image source={{uri: item.iconUrl}} style={styles.dropdownItemImage} />
+            )}
             <Text style={styles.dropdownItemText}>{item.label}</Text>
           </View>
         )}
@@ -65,10 +68,19 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   dropdownItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 10,
+  },
+  dropdownItemImage: {
+    width: width * 0.1,
+    height: height * 0.06,
+    marginRight: 10,
   },
   dropdownItemText: {
     color: '#fff',
+    flex: 1,
+    textAlign: 'left',
   },
 });
 
