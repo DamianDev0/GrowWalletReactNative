@@ -6,9 +6,11 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import Slide from './components/slideOnboarding';
 import Footer from './components/footerOnboarding';
+import useNavigation from '../../hook/useNavigation';
 
 const {width, height} = Dimensions.get('window');
 
@@ -42,6 +44,7 @@ const slides = [
 const OnboardingScreen = () => {
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
   const ref = React.useRef<FlatList>(null);
+  const navigation = useNavigation();
 
   const updateCurrentSlideIndex = (e: any) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
@@ -49,20 +52,21 @@ const OnboardingScreen = () => {
     setCurrentSlideIndex(currentIndex);
   };
 
-  const goToNextSlide = () => {
+  const goToNextSlide = async () => {
     const nextSlideIndex = currentSlideIndex + 1;
     if (nextSlideIndex !== slides.length) {
       const offset = nextSlideIndex * width;
       ref.current?.scrollToOffset({offset});
       setCurrentSlideIndex(nextSlideIndex);
+    } else {
+      await AsyncStorage.setItem('onboardingCompleted', 'true');
+      navigation.replace('Login');
     }
   };
 
-  const skip = () => {
-    const lastSlideIndex = slides.length - 1;
-    const offset = lastSlideIndex * width;
-    ref.current?.scrollToOffset({offset});
-    setCurrentSlideIndex(lastSlideIndex);
+  const skip = async () => {
+    await AsyncStorage.setItem('onboardingCompleted', 'true');
+    navigation.replace('Login');
   };
 
   return (

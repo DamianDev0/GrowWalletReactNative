@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import useNavigation from '../../../hook/useNavigation';
 import {Dimensions} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -23,6 +24,11 @@ const Footer: React.FC<FooterProps> = ({
 }) => {
   const navigation = useNavigation();
 
+  const handleGetStarted = async () => {
+    await AsyncStorage.setItem('onboardingCompleted', 'true');
+    navigation.replace('Login');
+  };
+
   return (
     <View style={styles.footerContainer}>
       <View style={styles.indicatorContainer}>
@@ -43,7 +49,7 @@ const Footer: React.FC<FooterProps> = ({
         {currentSlideIndex === slidesLength - 1 ? (
           <TouchableOpacity
             style={styles.startButton}
-            onPress={() => navigation.replace('Login')}>
+            onPress={handleGetStarted}>
             <Text style={styles.startButtonText}>GET STARTED</Text>
           </TouchableOpacity>
         ) : (
