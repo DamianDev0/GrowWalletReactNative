@@ -5,7 +5,6 @@ import TabBarIcon from './TabBarIcon';
 import {NavigationTab} from '../types/navigation.types';
 import TransactionScreen from '../screens/transactionScreen/transactionScreen';
 import {StyleSheet, Dimensions, View} from 'react-native';
-import {BlurView} from '@react-native-community/blur';
 
 const Tab = createBottomTabNavigator<NavigationTab>();
 const {width} = Dimensions.get('window');
@@ -33,24 +32,10 @@ export const MyTabs = () => (
         options={{tabBarLabel: 'Transactions'}}
       />
     </Tab.Navigator>
-    <View style={styles.blurContainer}>
-      <BlurView style={styles.blurView} blurType="light" blurAmount={6} />
-    </View>
   </View>
 );
 
 const styles = StyleSheet.create({
-  blurContainer: {
-    position: 'absolute',
-    bottom: 10,
-    width: width * 0.6,
-    height: 60,
-    alignSelf: 'center',
-    borderRadius: 30,
-    overflow: 'hidden',
-    zIndex: 1,
-    backgroundColor: 'transparent',
-  },
   blurView: {
     ...StyleSheet.absoluteFillObject,
   },
@@ -65,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 0.3,
     gap: 10,
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     zIndex: 2,
     marginLeft: width * 0.2,
     overflow: 'hidden',

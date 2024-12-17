@@ -67,8 +67,17 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({
           />
           <Text style={styles.cardText}>Total balance</Text>
           <Text style={styles.cardBalance}>
-            {wallet.balance.toLocaleString()} {wallet.currency}
+            {wallet.currency &&
+              new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: wallet.currency,
+                minimumFractionDigits: 0,
+              }).format(wallet.balance)}
           </Text>
+
+          <View style={styles.currencyContainer}>
+            <Text style={styles.currencyText}>{wallet.currency}</Text>
+          </View>
         </ImageBackground>
       )}
 
@@ -175,6 +184,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'red',
     marginTop: 20,
+  },
+  currencyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 16,
+    right: 105,
+  },
+  currencyText: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
 
