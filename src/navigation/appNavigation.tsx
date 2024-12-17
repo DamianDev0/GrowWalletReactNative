@@ -12,6 +12,7 @@ import BudgetAndTransactionScreen from '../screens/budgetAndTransaction/budgetAn
 import Loader from '../components/loader.component';
 import {NavigationParams} from '../types/navigation.types';
 import {enableScreens} from 'react-native-screens';
+import TransactionDetailsScreen from '../screens/transactionDetails/transactionDetailsScreen';
 
 enableScreens();
 
@@ -24,7 +25,9 @@ const AppNavigation = () => {
 
   useEffect(() => {
     const checkFirstLaunch = async () => {
-      const hasCompletedOnboarding = await AsyncStorage.getItem('onboardingCompleted');
+      const hasCompletedOnboarding = await AsyncStorage.getItem(
+        'onboardingCompleted',
+      );
       setIsFirstLaunch(hasCompletedOnboarding === null);
       setLoading(false);
     };
@@ -64,6 +67,11 @@ const AppNavigation = () => {
             <Stack.Screen
               name="BudgetAndTransactionScreen"
               component={BudgetAndTransactionScreen}
+              options={{headerShown: false, animation: 'slide_from_right'}}
+            />
+            <Stack.Screen
+              name="TransactionDetailsScreen"
+              component={TransactionDetailsScreen}
               options={{headerShown: false, animation: 'slide_from_right'}}
             />
           </>

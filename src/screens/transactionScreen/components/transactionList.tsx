@@ -6,57 +6,68 @@ import {
   Image,
   SectionList,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import {useGroupedTransactions} from '../hooks/useGroupedTransactions';
 import {DataItem} from '../../../interfaces/transaction.interface';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
+import useNavigation from '../../../hook/useNavigation';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 const {width, height} = Dimensions.get('screen');
 
-const formatCurrency = (amount: string, currency: string) => {
-  const numericAmount = parseFloat(amount);
-  return numericAmount.toLocaleString('es-CO', {
-    style: 'currency',
-    currency: currency,
-  });
-};
+
 
 const TransactionsList: React.FC = () => {
+  const navigation = useNavigation();
   const {sections, loading, error, currentMonth} = useGroupedTransactions();
 
   const renderItem = ({item}: {item: DataItem}) => {
     const currency = item.wallet?.currency || 'COP';
 
     return (
-      <LinearGradient
-        style={styles.item}
-        colors={['#2b1557', '#000']}
-        start={{x: 1, y: 0}}
-        end={{x: 0, y: 3.8}}>
-        <View>
-          <View style={styles.containerCard}>
-            <View>
-              <Image source={{uri: item.category.icon}} style={styles.icon} />
-            </View>
-            <View style={styles.details}>
-              <Text style={styles.textTitle}>{item.name}</Text>
-              <Text
-                style={styles.textDescription}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                {item.description}
-              </Text>
-              <Text style={styles.textDate}>{item.category.name}</Text>
-            </View>
-            <View style={styles.amountContainer}>
-              <Text style={styles.textAmount}>
-                {formatCurrency(item.amount, currency)}
-              </Text>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('TransactionDetailsScreen', {
+            id: item.id,
+            name: item.name,
+            description: item.description,
+            icon: item.category.icon,
+            amount: item.amount,
+            date: item.date,
+            categoryName: item.category.name || '',
+          })
+        }>
+        <LinearGradient
+          style={styles.item}
+          colors={['#2b1557', '#000']}
+          start={{x: 1, y: 0}}
+          end={{x: 0, y: 3.8}}>
+          <View>
+            <View style={styles.containerCard}>
+              <View>
+                <Image source={{uri: item.category.icon}} style={styles.icon} />
+              </View>
+              <View style={styles.details}>
+                <Text style={styles.textTitle}>{item.name}</Text>
+                <Text
+                  style={styles.textDescription}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
+                  {item.description}
+                </Text>
+                <Text style={styles.textDate}>{item.category.name}</Text>
+              </View>
+              <View style={styles.amountContainer}>
+                <Text style={styles.textAmount}>
+                  {formatCurrency(item.amount, currency)}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-      </LinearGradient>
+        </LinearGradient>
+      </TouchableOpacity>
     );
   };
 

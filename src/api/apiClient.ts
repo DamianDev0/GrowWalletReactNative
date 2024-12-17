@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://192.168.0.23:4000/growWallet/v1/',
+  baseURL: 'https://developed-gilberte-joji-d9d28067.koyeb.app/growWallet/v1/',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
