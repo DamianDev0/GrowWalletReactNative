@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -31,9 +31,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       swipeDirection="down"
       style={styles.modal}>
       <LinearGradient
-        colors={['#1b4f72', '#4a235a']}
-        start={{ x: 1, y: 1.2 }}
-        end={{ x: 0, y: 1 }}
+        colors={['#000', '#2b1557']}
+        start={{x: 3, y: 0}}
+        end={{x: 1, y: 1.6}}
         style={[
           styles.container,
           {

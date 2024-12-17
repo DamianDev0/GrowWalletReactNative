@@ -36,9 +36,9 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={['#1b4f72', '#4a235a']}
-        start={{x: 1, y: 2}}
-        end={{x: 0, y: 1}}
+        colors={['#2b1557', '#000']}
+        start={{x: 1, y: 0}}
+        end={{x: 0, y: 3.8}}
         style={styles.card}>
         {loading ? (
           <View style={styles.loaderContainer}>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 5,
-    elevation: 8,
+    elevation: 1,
   },
   loaderContainer: {
     flex: 1,

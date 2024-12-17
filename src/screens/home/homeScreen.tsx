@@ -39,9 +39,9 @@ const HomeScreen = () => {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <LinearGradient
-        colors={['#000000', '#6a1b9a', '#000000']}
-        start={{x: 2, y: 0}}
-        end={{x: 0, y: 5}}
+        colors={['#000000', '#4a235a', '#000000']}
+        start={{x: 1, y: 4}}
+        end={{x: 1, y: 0.2}}
         style={styles.container}>
         <View>
           <HeaderHome

@@ -22,9 +22,9 @@ const BudgetAndTransactionScreen = () => {
 
   return (
     <LinearGradient
-      colors={['#000000', '#6a1b9a', '#000000']}
-      start={{x: 2, y: 0}}
-      end={{x: 0, y: 5}}
+      colors={['#000000', '#4a235a', '#000000']}
+      start={{x: 2, y: 7}}
+      end={{x: 0, y: 0}}
       style={styles.container}>
       <HeaderBudgetAndTransaction
         name={name}

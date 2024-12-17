@@ -28,7 +28,7 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
   const {formData, handleChangeInput, handleSave} = useTransaction(budgetId);
 
   return (
-    <GenericModal isVisible={isVisible} onClose={closeModal} height={700}>
+    <GenericModal isVisible={isVisible} onClose={closeModal} height={720}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -36,7 +36,7 @@ const ModalComponentTransactions: React.FC<ModalComponentTransactionsProps> = ({
         <View style={styles.content}>
           <View style={styles.imageContainer}>
             <Image
-              source={require('../../../assets/img/Saly-3.png')}
+              source={require('../../../assets/img/Saly-9.png')}
               style={styles.modalImage}
             />
           </View>
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     color: 'white',
+    justifyContent: 'flex-start',
   },
   content: {
     flex: 1,
@@ -110,8 +111,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalImage: {
-    width: width * 1.4,
-    height: height * 0.34,
+    width: width * 2,
+    height: height * 0.37,
     resizeMode: 'contain',
   },
   inputsModal: {
