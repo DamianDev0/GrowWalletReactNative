@@ -8,9 +8,11 @@ import {
   Dimensions,
   Text,
 } from 'react-native';
+
 import GenericButton from '../../../components/genericButton.component';
 import InputGeneric from '../../../components/genericInput.component';
 import useCreateWallet from '../hook/useWallet';
+import LinearGradient from 'react-native-linear-gradient';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -18,7 +20,11 @@ const WalletForm = () => {
   const {budget, setBudget, handleCreateWallet, loading} = useCreateWallet();
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={['#000000', '#6a1b9a', '#000000']}
+      start={{x: 2, y: 0}}
+      end={{x: 0, y: 5}}
+      style={styles.container}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -52,15 +58,13 @@ const WalletForm = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color: 'white',
-    backgroundColor: '#301338',
   },
   imageContainer: {
     alignItems: 'center',
