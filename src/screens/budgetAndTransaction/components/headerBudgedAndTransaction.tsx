@@ -44,18 +44,26 @@ const HeaderBudgetAndTransaction: React.FC<HeaderBudgetAndTransactionProps> = ({
 
   return (
     <LinearGradient
-      colors={['#1b4f72', '#512e5f']}
-      start={{x: 1.5, y: 1}}
-      end={{x: 0, y: 1}}
+      colors={['#2b1557', '#000']}
+      start={{x: 2, y: 1.8}}
+      end={{x: 0, y: 3.6}}
       style={styles.content}>
       <View style={styles.iconButtonsContainer}>
-        <TouchableOpacity onPress={openBudgetModal} style={styles.iconButton}>
-          <Feather name="dollar-sign" size={24} color="#fff" />
+        <TouchableOpacity
+          onPress={openBudgetModal}
+          style={styles.iconButtonContainer}>
+          <View style={styles.iconButton}>
+            <Feather name="dollar-sign" size={24} color="#fff" />
+          </View>
+          <Text style={styles.iconButtonText}>Budget</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={openTransactionModal}
-          style={styles.iconButton}>
-          <Feather name="activity" size={24} color="#fff" />
+          style={styles.iconButtonContainer}>
+          <View style={styles.iconButton}>
+            <Feather name="activity" size={24} color="#fff" />
+          </View>
+          <Text style={styles.iconButtonText}>Transaction</Text>
         </TouchableOpacity>
       </View>
 
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    elevation: 7,
+    elevation: 2,
   },
   iconButtonsContainer: {
     position: 'absolute',
@@ -100,10 +108,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
   },
+  iconButtonContainer: {
+    alignItems: 'center',
+  },
   iconButton: {
     backgroundColor: 'rgba( 133, 193, 233,0.4)',
     borderRadius: 20,
     padding: 10,
+  },
+  iconButtonText: {
+    marginTop: 5,
+    fontSize: 10,
+    color: '#ccc',
+    fontWeight: 'bold',
   },
   icon: {
     width: width * 0.4,
@@ -115,14 +132,14 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#fff',
+    color: 'rgba(255, 255, 255,0.8)',
     marginBottom: 10,
   },
   description: {
     fontSize: 13,
-    color: '#fff',
     textAlign: 'center',
     width: width * 0.9,
+    color: 'rgba(255, 255, 255,0.6)',
   },
 });
 

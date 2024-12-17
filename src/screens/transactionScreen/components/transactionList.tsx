@@ -23,7 +23,7 @@ const formatCurrency = (amount: string, currency: string) => {
 };
 
 const TransactionsList: React.FC = () => {
-  const {sections, loading, error} = useGroupedTransactions();
+  const {sections, loading, error, currentMonth} = useGroupedTransactions();
 
   const renderItem = ({item}: {item: DataItem}) => {
     const currency = item.wallet?.currency || 'COP';
@@ -31,9 +31,9 @@ const TransactionsList: React.FC = () => {
     return (
       <LinearGradient
         style={styles.item}
-        colors={['#1b4f72', '#4a235a']}
-        start={{x: 1, y: 2}}
-        end={{x: 0, y: 1}}>
+        colors={['#2b1557', '#000']}
+        start={{x: 1, y: 0}}
+        end={{x: 0, y: 3.8}}>
         <View>
           <View style={styles.containerCard}>
             <View>
@@ -100,7 +100,9 @@ const TransactionsList: React.FC = () => {
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      <Text style={styles.titleTransaction}>Transactions</Text>
+      <Text style={styles.titleTransaction}>
+        Transactions of {currentMonth}
+      </Text>
       <SectionList
         sections={sections}
         keyExtractor={item => item.id}

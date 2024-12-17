@@ -43,9 +43,9 @@ const CategoryUser: React.FC<CategoryUserProps> = ({ categories, loading, error 
       onPress={() => handleNavigation(item)}
     >
       <LinearGradient
-        colors={['#2b1557', '#154360']}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 2, y: 1 }}
+        colors={['#2b1557', '#000']}
+        start={{x: 1, y: 0}}
+        end={{x: 1, y: 2}}
         style={styles.gradientBackground}
       />
       <Image source={{ uri: item.icon }} style={styles.icon} />
@@ -164,6 +164,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: width * 0.95,
     height: 160,
+    elevation: 2,
+    shadowColor: '#FFFF',
   },
   carousel: {
     marginBottom: 20,

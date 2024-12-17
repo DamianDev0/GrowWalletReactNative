@@ -62,10 +62,6 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({
           style={styles.card}
           imageStyle={styles.cardImage}>
           <Image
-            style={styles.cardLogo}
-            source={require('../../../assets/img/title.png')}
-          />
-          <Image
             source={require('../../../assets/img/chip.png')}
             style={styles.chip}
           />
@@ -169,13 +165,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 15,
     left: 20,
-  },
-  cardLogo: {
-    width: width * 0.45,
-    height: height * 0.19,
-    position: 'absolute',
-    top: -60,
-    right: -20,
   },
   loadingText: {
     fontSize: 12,
